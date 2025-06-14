@@ -13,10 +13,18 @@ export const Layout = ({ children }: LayoutProps) => {
   return (
     <div className='layout'>
       <Header
-        title={currentPage === 'visualizer' ? 'Engineer Lab' : undefined}
+        title={
+          currentPage === 'visualizer'
+            ? 'Engineer Lab'
+            : currentPage === 'eventloop'
+            ? 'Event Loop Visualizer'
+            : undefined
+        }
         subtitle={
           currentPage === 'visualizer'
             ? 'Interactive visualization of engineering concepts'
+            : currentPage === 'eventloop'
+            ? 'Understanding JavaScript Event Loop through visual animations'
             : undefined
         }
       />

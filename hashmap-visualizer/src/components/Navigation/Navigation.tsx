@@ -1,41 +1,47 @@
-import { useState } from 'react';
-import { useNavigation } from '../../contexts/useNavigation';
-import type { NavigationItem } from '../../types/navigation';
+import { useState } from 'react'
+import { useNavigation } from '../../contexts/useNavigation'
+import type { NavigationItem } from '../../types/navigation'
 
 const navigationItems: NavigationItem[] = [
   { id: 'home', label: 'Home', path: '/' },
-  { id: 'visualizer', label: 'Data Structures', path: '/visualizer' }
-];
+  { id: 'visualizer', label: 'Data Structures', path: '/visualizer' },
+  { id: 'eventloop', label: 'Event Loop', path: '/eventloop' },
+]
 
 export const Navigation = () => {
-  const { currentPage, setCurrentPage } = useNavigation();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { currentPage, setCurrentPage } = useNavigation()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  const handleNavigation = (page: 'home' | 'visualizer') => {
-    setCurrentPage(page);
-    setIsMobileMenuOpen(false);
-  };
+  const handleNavigation = (page: 'home' | 'visualizer' | 'eventloop') => {
+    setCurrentPage(page)
+    setIsMobileMenuOpen(false)
+  }
 
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
 
   return (
-    <nav className="navigation">
-      <div className="nav-container">
-        <div className="nav-brand">
-          <button 
+    <nav className='navigation'>
+      <div className='nav-container'>
+        <div className='nav-brand'>
+          <button
             onClick={() => handleNavigation('home')}
-            className="brand-button"
-            aria-label="Go to home"
+            className='brand-button'
+            aria-label='Go to home'
           >
-            <div className="brand-icon">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L2 7v10c0 5.55 3.84 10 9 11 5.16-1 9-5.45 9-11V7l-10-5z"/>
-                <path d="M9 12h6M9 16h6M9 8h6" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+            <div className='brand-icon'>
+              <svg viewBox='0 0 24 24' fill='currentColor'>
+                <path d='M12 2L2 7v10c0 5.55 3.84 10 9 11 5.16-1 9-5.45 9-11V7l-10-5z' />
+                <path
+                  d='M9 12h6M9 16h6M9 8h6'
+                  stroke='currentColor'
+                  strokeWidth='1.5'
+                  fill='none'
+                />
               </svg>
             </div>
-            <span className="brand-text">Engineer Lab</span>
+            <span className='brand-text'>Engineer Lab</span>
           </button>
         </div>
 
@@ -43,8 +49,12 @@ export const Navigation = () => {
           {navigationItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => handleNavigation(item.id as 'home' | 'visualizer')}
-              className={`nav-item ${currentPage === item.id ? 'nav-item--active' : ''}`}
+              onClick={() =>
+                handleNavigation(item.id as 'home' | 'visualizer' | 'eventloop')
+              }
+              className={`nav-item ${
+                currentPage === item.id ? 'nav-item--active' : ''
+              }`}
               aria-current={currentPage === item.id ? 'page' : undefined}
             >
               {item.label}
@@ -54,11 +64,13 @@ export const Navigation = () => {
 
         <button
           onClick={toggleMobileMenu}
-          className="mobile-menu-toggle"
-          aria-label="Toggle navigation menu"
+          className='mobile-menu-toggle'
+          aria-label='Toggle navigation menu'
           aria-expanded={isMobileMenuOpen}
         >
-          <span className={`hamburger ${isMobileMenuOpen ? 'hamburger--open' : ''}`}>
+          <span
+            className={`hamburger ${isMobileMenuOpen ? 'hamburger--open' : ''}`}
+          >
             <span></span>
             <span></span>
             <span></span>
@@ -66,5 +78,5 @@ export const Navigation = () => {
         </button>
       </div>
     </nav>
-  );
-};
+  )
+}

@@ -12,7 +12,11 @@ export const Home = () => {
       <section className='hero'>
         <div className='hero-container'>
           <div className='hero-content'>
-            <h1 className='hero-title'>Software Engineering<br/>Concepts</h1>
+            <h1 className='hero-title'>
+              Software Engineering
+              <br />
+              Concepts
+            </h1>
             <p className='hero-subtitle'>
               Interactive demonstrations of fundamental computer science
               concepts and data structures through modern web technologies
@@ -23,6 +27,12 @@ export const Home = () => {
                 className='cta-button cta-button--primary'
               >
                 Explore Data Structures
+              </button>
+              <button
+                onClick={() => setCurrentPage('eventloop')}
+                className='cta-button cta-button--primary'
+              >
+                Explore Event Loop
               </button>
               <a
                 href='https://github.com/rennanribas'
