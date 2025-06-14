@@ -194,45 +194,7 @@ export const EventLoopVisualization: React.FC<EventLoopVisualizationProps> = ({
         />
       </div>
 
-      <div className='eventloop-flow'>
-        <div className='flow-arrows'>
-          <div className='flow-arrow flow-arrow--webapis-to-queues'>
-            <span className='arrow-label'>Completed async operations</span>
-          </div>
-          <div className='flow-arrow flow-arrow--queues-to-stack'>
-            <span className='arrow-label'>
-              Event Loop checks queues when stack is empty
-            </span>
-          </div>
-          <div className='flow-arrow flow-arrow--microtask-priority'>
-            <span className='arrow-label'>
-              Microtasks have priority over tasks
-            </span>
-          </div>
-        </div>
-      </div>
 
-      <div className='eventloop-legend'>
-        <h4 className='legend-title'>Task Types</h4>
-        <div className='legend-items'>
-          <div className='legend-item'>
-            <div className='legend-indicator legend-indicator--sync'>⚡</div>
-            <span>Synchronous</span>
-          </div>
-          <div className='legend-item'>
-            <div className='legend-indicator legend-indicator--promise'>✨</div>
-            <span>Promise/Microtask</span>
-          </div>
-          <div className='legend-item'>
-            <div className='legend-indicator legend-indicator--timer'>⏰</div>
-            <span>Timer/Callback</span>
-          </div>
-          <div className='legend-item'>
-            <div className='legend-indicator legend-indicator--async'>🔄</div>
-            <span>Async Operation</span>
-          </div>
-        </div>
-      </div>
     </div>
   )
 }

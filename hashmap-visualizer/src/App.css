@@ -1300,6 +1300,23 @@ body {
   margin: 0 auto;
 }
 
+@media (min-width: 1024px) {
+  .eventloop-main {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+
+  .eventloop-main .eventloop-controls {
+    flex: 0 0 400px;
+  }
+
+  .eventloop-main .eventloop-visualization {
+    flex: 1;
+  }
+}
+
 .eventloop-controls {
   display: flex;
   flex-direction: column;
@@ -1314,6 +1331,44 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.controls-section--title {
+  text-align: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--gray-200);
+  margin-bottom: 1rem;
+}
+
+.main-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin: 0 0 0.5rem 0;
+}
+
+.main-subtitle {
+  font-size: 1rem;
+  color: var(--gray-600);
+  margin: 0;
+}
+
+.controls-section--controls {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.controls-subsection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.eventloop-info {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--gray-200);
 }
 
 .controls-title {
@@ -1523,42 +1578,65 @@ body {
 /* Event Loop Visualization */
 .eventloop-visualization {
   background: white;
-  border-radius: 16px;
-  padding: 2rem;
+  border-radius: 12px;
+  padding: 1.5rem;
   border: 1px solid var(--gray-200);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+@media (min-width: 768px) {
+  .eventloop-visualization {
+    padding: 2rem;
+  }
 }
 
 .eventloop-header {
-  text-align: center;
   margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+@media (min-width: 768px) {
+  .eventloop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .eventloop-title {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .current-step-info {
+    text-align: right;
+    align-items: flex-end;
+  }
 }
 
 .eventloop-title {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 600;
   color: var(--gray-800);
-  margin: 0 0 1rem 0;
-  background: linear-gradient(135deg, var(--primary-600), var(--secondary-600));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  margin: 0 0 1.5rem 0;
+  text-align: left;
 }
 
 .current-step-info {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
 .step-counter {
   background: var(--primary-100);
   color: var(--primary-700);
   padding: 0.5rem 1rem;
-  border-radius: 20px;
+  border-radius: 8px;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
+  width: fit-content;
 }
 
 .step-description {

@@ -9,5 +9,5 @@ createRoot(document.getElementById('root')!).render(
     <NavigationProvider>
       <App />
     </NavigationProvider>
-  </React.StrictMode>,
+  </React.StrictMode>
 )

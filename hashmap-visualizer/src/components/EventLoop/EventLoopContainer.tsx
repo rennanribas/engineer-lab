@@ -5,6 +5,7 @@ import {
 } from '../../services/EventLoopService'
 import { EventLoopVisualization } from '../Visualization/EventLoopVisualization'
 import { EventLoopControls } from '../Controls/EventLoopControls'
+import { EventLoopInfo } from './EventLoopInfo'
 
 const eventLoopService = new EventLoopService()
 
@@ -98,19 +99,19 @@ export const EventLoopContainer: React.FC = () => {
 
   return (
     <div className='eventloop-container'>
-      <EventLoopControls
-        steps={eventLoopState.steps}
-        currentStep={eventLoopState.currentStep}
-        isPlaying={eventLoopState.isPlaying}
-        onNext={handleNext}
-        onPrevious={handlePrevious}
-        onReset={handleReset}
-        onPlay={handlePlay}
-        onPause={handlePause}
-        onSelectDemo={handleSelectDemo}
-      />
+      <div className='eventloop-main'>
+        <EventLoopControls
+          steps={eventLoopState.steps}
+          currentStep={eventLoopState.currentStep}
+          isPlaying={eventLoopState.isPlaying}
+          onNext={handleNext}
+          onPrevious={handlePrevious}
+          onReset={handleReset}
+          onPlay={handlePlay}
+          onPause={handlePause}
+          onSelectDemo={handleSelectDemo}
+        />
 
-      <div className='eventloop-visualization'>
         <EventLoopVisualization
           callStack={eventLoopState.callStack}
           taskQueue={eventLoopState.taskQueue}
@@ -120,6 +121,8 @@ export const EventLoopContainer: React.FC = () => {
           steps={eventLoopState.steps}
         />
       </div>
+
+      <EventLoopInfo />
     </div>
   )
 }

@@ -18,9 +18,7 @@ function App() {
     }
   }
 
-  return (
-    <Layout>{renderContent()}</Layout>
-  )
+  return <Layout>{renderContent()}</Layout>
 }
 
 export default App
