@@ -31,9 +31,7 @@ const demoOptions: DemoOption[] = [
   },
 ]
 
-export const DemoControls: React.FC<DemoControlsProps> = ({
-  onSelectDemo,
-}) => {
+export const DemoControls: React.FC<DemoControlsProps> = ({ onSelectDemo }) => {
   const [selectedDemo, setSelectedDemo] = useState<string>('basic')
 
   const handleSelectDemo = (demoId: string) => {
@@ -51,7 +49,9 @@ export const DemoControls: React.FC<DemoControlsProps> = ({
               <button
                 key={demo.id}
                 onClick={() => handleSelectDemo(demo.id)}
-                className={`demo-card ${selectedDemo === demo.id ? 'demo-card--selected' : ''}`}
+                className={`demo-card ${
+                  selectedDemo === demo.id ? 'demo-card--selected' : ''
+                }`}
               >
                 <div className='demo-card-header'>
                   <span className='demo-label'>{demo.label}</span>

@@ -1,9 +1,9 @@
 import React, { useState, useCallback, type ReactNode } from 'react'
-import { 
-  CodePreviewContext, 
-  type CodePreviewContextType, 
-  type CodePreviewState, 
-  type CodeLine 
+import {
+  CodePreviewContext,
+  type CodePreviewContextType,
+  type CodePreviewState,
+  type CodeLine,
 } from './CodePreviewContextDefinition'
 
 interface CodePreviewProviderProps {
@@ -13,69 +13,68 @@ interface CodePreviewProviderProps {
 
 export const CodePreviewProvider: React.FC<CodePreviewProviderProps> = ({
   children,
-  initialTitle = 'demo.js'
+  initialTitle = 'demo.js',
 }) => {
   const [state, setState] = useState<CodePreviewState>({
     lines: [],
     currentStep: 0,
-    title: initialTitle
+    title: initialTitle,
   })
 
   const updateLines = useCallback((lines: CodeLine[]) => {
-    setState(prev => ({ ...prev, lines }))
+    setState((prev) => ({ ...prev, lines }))
   }, [])
 
   const setCurrentStep = useCallback((step: number) => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       currentStep: step,
       lines: prev.lines.map((line) => ({
         ...line,
         isActive: line.isStep && line.stepIndex === step - 1,
-        isFaded: line.isStep && step > 0 && line.stepIndex !== step - 1
-      }))
+        isFaded: line.isStep && step > 0 && line.stepIndex !== step - 1,
+      })),
     }))
   }, [])
 
   const setTitle = useCallback((title: string) => {
-    setState(prev => ({ ...prev, title }))
+    setState((prev) => ({ ...prev, title }))
   }, [])
 
-  const generateLines = useCallback(<T,>(
-    steps: T[],
-    currentStep: number,
-    generator: (step: T) => string
-  ) => {
-    const lines: CodeLine[] = [
-      { content: 'const hashMap = new HashMap()', isStep: false },
-      { content: '', isStep: false },
-    ]
+  const generateLines = useCallback(
+    <T,>(steps: T[], currentStep: number, generator: (step: T) => string) => {
+      const lines: CodeLine[] = [
+        { content: 'const hashMap = new HashMap()', isStep: false },
+        { content: '', isStep: false },
+      ]
 
-    steps.forEach((step: T, stepIndex: number) => {
-      const codeLine = generator(step)
-      
-      lines.push({
-        content: codeLine,
-        isStep: true,
-        stepIndex,
-        isActive: stepIndex === currentStep - 1,
-        isFaded: currentStep > 0 && stepIndex !== currentStep - 1
+      steps.forEach((step: T, stepIndex: number) => {
+        const codeLine = generator(step)
+
+        lines.push({
+          content: codeLine,
+          isStep: true,
+          stepIndex,
+          isActive: stepIndex === currentStep - 1,
+          isFaded: currentStep > 0 && stepIndex !== currentStep - 1,
+        })
       })
-    })
 
-    setState({
-      lines,
-      currentStep,
-      title: state.title
-    })
-  }, [state.title])
+      setState({
+        lines,
+        currentStep,
+        title: state.title,
+      })
+    },
+    [state.title]
+  )
 
   const value: CodePreviewContextType = {
     state,
     updateLines,
     setCurrentStep,
     setTitle,
-    generateLines
+    generateLines,
   }
 
   return (

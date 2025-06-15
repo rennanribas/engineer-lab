@@ -1,5 +1,8 @@
 import { useContext } from 'react'
-import { CodePreviewContext, type CodePreviewContextType } from '../contexts/CodePreviewContextDefinition'
+import {
+  CodePreviewContext,
+  type CodePreviewContextType,
+} from '../contexts/CodePreviewContextDefinition'
 
 export const useCodePreview = (): CodePreviewContextType => {
   const context = useContext(CodePreviewContext)

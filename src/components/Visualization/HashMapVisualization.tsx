@@ -19,8 +19,8 @@ export const HashMapVisualization: React.FC<HashMapVisualizationProps> = ({
   // Find which bucket contains the highlighted key
   useEffect(() => {
     if (highlightedKey !== undefined) {
-      const bucketIndex = buckets.findIndex(bucket => 
-        bucket.some(entry => entry.key === highlightedKey)
+      const bucketIndex = buckets.findIndex((bucket) =>
+        bucket.some((entry) => entry.key === highlightedKey)
       )
       if (bucketIndex !== -1) {
         setActiveBucket(bucketIndex)
@@ -45,8 +45,8 @@ export const HashMapVisualization: React.FC<HashMapVisualizationProps> = ({
 
       <div className='buckets-container'>
         {buckets.map((bucket, index) => (
-          <div 
-            key={index} 
+          <div
+            key={index}
             className={`bucket ${activeBucket === index ? 'active' : ''}`}
           >
             <div className='bucket-header'>
@@ -58,15 +58,15 @@ export const HashMapVisualization: React.FC<HashMapVisualizationProps> = ({
               ) : (
                 bucket.map((entry, entryIndex) => (
                   <div
-                  key={entryIndex}
-                  className={`entry ${
-                    entry.key === highlightedKey ? 'highlighted' : ''
-                  } ${
-                    entry.key === highlightedKey && currentOperation 
-                      ? `operation-${currentOperation}` 
-                      : ''
-                  }`}
-                >
+                    key={entryIndex}
+                    className={`entry ${
+                      entry.key === highlightedKey ? 'highlighted' : ''
+                    } ${
+                      entry.key === highlightedKey && currentOperation
+                        ? `operation-${currentOperation}`
+                        : ''
+                    }`}
+                  >
                     <span className='entry-key'>{String(entry.key)}</span>
                     <span className='entry-separator'>:</span>
                     <span className='entry-value'>{String(entry.value)}</span>

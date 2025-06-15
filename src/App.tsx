@@ -1,24 +1,23 @@
-import { useNavigation } from './contexts/useNavigation'
-import { Layout } from './components/Layout/Layout'
-import { DataStructuresContainer } from './components/Demo/DataStructuresContainer'
-import { EventLoopContainer } from './components/EventLoop/EventLoopContainer'
-import './App.css'
+import { Suspense } from 'react'
+import { Outlet } from 'react-router-dom'
+import { Header } from './components/Layout/Header'
 
-function App() {
-  const { currentPage } = useNavigation()
-
-  const renderContent = () => {
-    switch (currentPage) {
-      case 'visualizer':
-        return <DataStructuresContainer />
-      case 'eventloop':
-        return <EventLoopContainer />
-      default:
-        return null
-    }
-  }
-
-  return <Layout>{renderContent()}</Layout>
+// Main App Layout Component following Container/Presentational pattern
+export default function App() {
+  return (
+    <div className='min-h-screen flex flex-col bg-bg-primary'>
+      <Header />
+      <main className='flex-1'>
+        <Suspense 
+          fallback={
+            <div className='flex items-center justify-center h-64 text-text-secondary'>
+              Loading...
+            </div>
+          }
+        >
+          <Outlet />
+        </Suspense>
+      </main>
+    </div>
+  )
 }
-
-export default App

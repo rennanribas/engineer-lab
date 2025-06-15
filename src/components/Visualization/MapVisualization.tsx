@@ -34,8 +34,8 @@ export const MapVisualization: React.FC<MapVisualizationProps> = ({
                 className={`order-item ${
                   key === highlightedKey ? 'highlighted' : ''
                 } ${
-                  key === highlightedKey && currentOperation 
-                    ? `operation-${currentOperation}` 
+                  key === highlightedKey && currentOperation
+                    ? `operation-${currentOperation}`
                     : ''
                 }`}
               >
@@ -57,8 +57,8 @@ export const MapVisualization: React.FC<MapVisualizationProps> = ({
                   className={`map-entry ${
                     key === highlightedKey ? 'highlighted' : ''
                   } ${
-                    key === highlightedKey && currentOperation 
-                      ? `operation-${currentOperation}` 
+                    key === highlightedKey && currentOperation
+                      ? `operation-${currentOperation}`
                       : ''
                   }`}
                 >

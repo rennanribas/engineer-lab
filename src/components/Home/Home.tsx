@@ -1,12 +1,6 @@
-import { useNavigation } from '../../contexts/useNavigation'
+import { Link } from 'react-router-dom'
 
 export const Home = () => {
-  const { setCurrentPage } = useNavigation()
-
-  const handleExploreClick = () => {
-    setCurrentPage('visualizer')
-  }
-
   return (
     <div className='home'>
       <section className='hero'>
@@ -22,18 +16,12 @@ export const Home = () => {
               concepts and data structures through modern web technologies
             </p>
             <div className='hero-actions'>
-              <button
-                onClick={handleExploreClick}
-                className='cta-button cta-button--primary'
-              >
+              <Link to='/visualizer' className='cta-button cta-button--primary'>
                 Explore Data Structures
-              </button>
-              <button
-                onClick={() => setCurrentPage('eventloop')}
-                className='cta-button cta-button--primary'
-              >
+              </Link>
+              <Link to='/eventloop' className='cta-button cta-button--primary'>
                 Explore Event Loop
-              </button>
+              </Link>
               <a
                 href='https://github.com/rennanribas'
                 target='_blank'
