@@ -2,14 +2,14 @@ import React, { useState, useCallback, useEffect } from 'react'
 import {
   EventLoopService,
   type EventLoopState,
-} from '../../services/EventLoopService'
-import { EventLoopVisualization } from '../Visualization/EventLoopVisualization'
-import { EventLoopControls } from '../Controls/EventLoopControls'
-import { EventLoopInfo } from './EventLoopInfo'
+} from '../services/EventLoopService'
+import { EventLoopControls } from '../components/Controls/EventLoopControls'
+import { EventLoopVisualization } from '../components/Visualization/EventLoopVisualization'
+import { EventLoopInfo } from '../components/EventLoopInfo'
 
 const eventLoopService = new EventLoopService()
 
-export const EventLoopContainer: React.FC = () => {
+export const EventLoop: React.FC = () => {
   const [eventLoopState, setEventLoopState] = useState<EventLoopState>(
     eventLoopService.getCurrentState()
   )

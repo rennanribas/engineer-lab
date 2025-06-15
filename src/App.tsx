@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
-import { Header } from './components/Layout/Header'
+import { Header } from './Layout/Header'
 import { LoadSpinner } from './components/common'
 
 // Main App Layout Component following Container/Presentational pattern

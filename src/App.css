@@ -2610,16 +2610,16 @@ body {
 
 /* Icon colors */
 .debug-btn--play {
-  color: #27C93F;
+  color: #27c93f;
 }
 
 .debug-btn--pause {
-  color: #FF5F56;
+  color: #ff5f56;
   opacity: 0.35;
 }
 
 .debug-btn--reset svg {
-  color: #FFBF2F;
+  color: #ffbf2f;
 }
 
 .debug-info {

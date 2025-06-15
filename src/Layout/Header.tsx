@@ -4,7 +4,7 @@ import { useState } from 'react'
 // Navigation items configuration - following data-driven approach
 const navigationItems = [
   { to: '/', label: 'Home' },
-  { to: '/visualizer', label: 'Data Structures' },
+  { to: '/data-structures', label: 'Data Structures' },
   { to: '/eventloop', label: 'Event Loop' },
 ] as const
 
@@ -53,9 +53,13 @@ interface NavLinkProps {
 function NavLink({ to, children, onClick }: NavLinkProps) {
   const location = useLocation()
   const isActive = location.pathname === to
-  
+
   return (
-    <Link to={to} onClick={onClick} className={`nav-item ${isActive ? 'nav-item--active' : ''}`}>
+    <Link
+      to={to}
+      onClick={onClick}
+      className={`nav-item ${isActive ? 'nav-item--active' : ''}`}
+    >
       {children}
     </Link>
   )

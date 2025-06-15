@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { HashMapService, type DemoState } from '../../services/HashMapService'
-import { HashMapVisualization } from '../Visualization/HashMapVisualization'
-import { MapVisualization } from '../Visualization/MapVisualization'
-import { CodePreview } from '../Visualization/CodePreview'
-import { DemoControls } from '../Controls/DemoControls'
-import { CodePreviewProvider } from '../../contexts/CodePreviewContext'
-import { useDemoCodeGenerator } from '../../hooks/useDemoCodeGenerator'
+import { HashMapService, type DemoState } from '../services/HashMapService'
+import { CodePreviewProvider } from '../contexts/CodePreviewContext'
+import { useDemoCodeGenerator } from '../hooks/useDemoCodeGenerator'
+import { CodePreview } from '../components/Visualization/CodePreview'
+import { MapVisualization } from '../components/Visualization/MapVisualization'
+import { HashMapVisualization } from '../components/Visualization/HashMapVisualization'
+import { DemonstrationsComponent } from '../components/Demonstrations'
 
 const demoService = new HashMapService()
 
@@ -127,7 +127,7 @@ const DataStructuresContent: React.FC = () => {
             onPlay={handlePlay}
             onPause={handlePause}
           />
-          <DemoControls onSelectDemo={handleSelectDemo} />
+          <DemonstrationsComponent onSelectDemo={handleSelectDemo} />
         </div>
         <div className='visualizations'>
           <div className='visualization-panel'>
@@ -151,7 +151,7 @@ const DataStructuresContent: React.FC = () => {
   )
 }
 
-export const DataStructuresContainer: React.FC = () => {
+export const DataStructures: React.FC = () => {
   return (
     <CodePreviewProvider initialTitle='hashmap-demo.js'>
       <DataStructuresContent />

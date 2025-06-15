@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-interface DemoControlsProps {
+interface DemonstrationsComponentProps {
   onSelectDemo: (demoType: string) => void
 }
 
@@ -31,7 +31,7 @@ const demoOptions: DemoOption[] = [
   },
 ]
 
-export const DemoControls: React.FC<DemoControlsProps> = ({ onSelectDemo }) => {
+export const DemonstrationsComponent: React.FC<DemonstrationsComponentProps> = ({ onSelectDemo }) => {
   const [selectedDemo, setSelectedDemo] = useState<string>('basic')
 
   const handleSelectDemo = (demoId: string) => {
