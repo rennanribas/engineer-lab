@@ -103,31 +103,33 @@ export const DataStructuresContainer: React.FC = () => {
 
   return (
     <div className='demo-container'>
-      <DemoControls
-        steps={demoState.steps}
-        currentStep={demoState.currentStep}
-        isPlaying={demoState.isPlaying}
-        onNext={handleNext}
-        onPrevious={handlePrevious}
-        onReset={handleReset}
-        onPlay={handlePlay}
-        onPause={handlePause}
-        onSelectDemo={handleSelectDemo}
-      />
+      <div className='demo-main'>
+        <DemoControls
+          steps={demoState.steps}
+          currentStep={demoState.currentStep}
+          isPlaying={demoState.isPlaying}
+          onNext={handleNext}
+          onPrevious={handlePrevious}
+          onReset={handleReset}
+          onPlay={handlePlay}
+          onPause={handlePause}
+          onSelectDemo={handleSelectDemo}
+        />
 
-      <div className='visualizations'>
-        <div className='visualization-panel'>
-          <MapVisualization
-            data={demoState.mapData}
-            highlightedKey={highlightedKey}
-          />
-        </div>
+        <div className='visualizations'>
+          <div className='visualization-panel'>
+            <MapVisualization
+              data={demoState.mapData}
+              highlightedKey={highlightedKey}
+            />
+          </div>
 
-        <div className='visualization-panel'>
-          <HashMapVisualization
-            data={demoState.hashMapData}
-            highlightedKey={highlightedKey}
-          />
+          <div className='visualization-panel'>
+            <HashMapVisualization
+              data={demoState.hashMapData}
+              highlightedKey={highlightedKey}
+            />
+          </div>
         </div>
       </div>
     </div>

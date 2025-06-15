@@ -570,9 +570,28 @@ body {
 
 /* Demo container */
 .demo-container {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+  .demo-main {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+
+  .demo-main .eventloop-controls {
+    flex: 0 0 400px;
+  }
+
+  .demo-main .visualizations {
+    flex: 1;
+  }
 }
 
 /* Demo controls */
