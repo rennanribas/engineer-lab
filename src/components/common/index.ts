@@ -3,10 +3,10 @@
  * These components are typically reusable and don't contain business logic
  */
 
-export { ErrorBoundary } from './error-boundary'
+export { ErrorBoundary } from './ErrorBoundary'
+export { LoadSpinner } from './LoadSpinner'
 
 // Future common components can be exported here:
-// export { LoadingSpinner } from './LoadingSpinner'
 // export { Modal } from './Modal'
 // export { Button } from './Button'
 // export { Input } from './Input'
