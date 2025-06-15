@@ -3,7 +3,27 @@ import { useCodePreview } from '../../hooks/useCodePreview'
 
 type CodeToken = React.ReactElement<HTMLSpanElement>
 
-export const CodePreview: React.FC = () => {
+interface CodePreviewProps {
+  steps: unknown[]
+  currentStep: number
+  isPlaying: boolean
+  onNext: () => void
+  onPrevious: () => void
+  onReset: () => void
+  onPlay: () => void
+  onPause: () => void
+}
+
+export const CodePreview: React.FC<CodePreviewProps> = ({
+  steps,
+  currentStep,
+  isPlaying,
+  onNext,
+  onPrevious,
+  onReset,
+  onPlay,
+  onPause
+}) => {
   const { state } = useCodePreview()
 
 
@@ -65,6 +85,31 @@ export const CodePreview: React.FC = () => {
             {parseCodeLine(line.content)}
           </div>
         ))}
+      </div>
+      <div className='debug-controls'>
+        <div className='debug-controls-row'>
+          <button onClick={onReset} className='debug-btn debug-btn--reset'>
+            ⏮
+          </button>
+          <button onClick={onPrevious} className='debug-btn debug-btn--prev' disabled={currentStep === 0}>
+            ⏪
+          </button>
+          {isPlaying ? (
+            <button onClick={onPause} className='debug-btn debug-btn--pause'>
+              ⏸
+            </button>
+          ) : (
+            <button onClick={onPlay} className='debug-btn debug-btn--play' disabled={currentStep >= steps.length}>
+              ▶
+            </button>
+          )}
+          <button onClick={onNext} className='debug-btn debug-btn--next' disabled={currentStep >= steps.length}>
+            ⏩
+          </button>
+        </div>
+        <div className='debug-info'>
+          <span className='debug-step'>{currentStep}/{steps.length}</span>
+        </div>
       </div>
     </div>
   )

@@ -98,8 +98,7 @@ const DataStructuresContent: React.FC = () => {
     <div className='demo-container'>
       <div className='demo-main'>
         <div className='demo-controls-column'>
-          <CodePreview />
-          <DemoControls
+          <CodePreview
             steps={demoState.steps}
             currentStep={demoState.currentStep}
             isPlaying={demoState.isPlaying}
@@ -108,8 +107,8 @@ const DataStructuresContent: React.FC = () => {
             onReset={handleReset}
             onPlay={handlePlay}
             onPause={handlePause}
-            onSelectDemo={handleSelectDemo}
           />
+          <DemoControls onSelectDemo={handleSelectDemo} />
         </div>
         <div className='visualizations'>
           <div className='visualization-panel'>
