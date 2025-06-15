@@ -6,18 +6,28 @@ interface CodePreviewProps {
   currentStep: number
 }
 
+interface CodeLine {
+  content: string
+  isStep: boolean
+  stepIndex?: number
+  isActive?: boolean
+  isFaded?: boolean
+}
+
+type CodeToken = React.ReactElement<HTMLSpanElement>
+
 export const CodePreview: React.FC<CodePreviewProps> = ({
   steps,
   currentStep,
 }) => {
-  const generateCodeLines = () => {
-    const lines = [
+  const generateCodeLines = (): CodeLine[] => {
+    const lines: CodeLine[] = [
       { content: 'const hashMap = new HashMap()', isStep: false },
       { content: '', isStep: false },
     ]
 
-    steps.forEach((step, index) => {
-      let codeLine = ''
+    steps.forEach((step: DemoStep, index: number) => {
+      let codeLine: string = ''
       switch (step.operation) {
         case 'set':
           codeLine = `hashMap.set('${step.key}', ${typeof step.value === 'string' ? `'${step.value}'` : step.value})`
@@ -44,14 +54,14 @@ export const CodePreview: React.FC<CodePreviewProps> = ({
 
 
 
-  const parseCodeLine = (line: string) => {
+  const parseCodeLine = (line: string): CodeToken[] | null => {
     if (!line) return null
     
-    const tokens = []
-    const parts = line.split(/([\w]+|[.(),'"\s]+)/g).filter(Boolean)
+    const tokens: CodeToken[] = []
+    const parts: string[] = line.split(/([\w]+|[.(),'"\s]+)/g).filter(Boolean)
     
-    parts.forEach((part, index) => {
-      const key = `${line}-${index}-${part}`
+    parts.forEach((part: string, index: number) => {
+      const key: string = `${line}-${index}-${part}`
       if (part === 'const') {
         tokens.push(<span key={key} className='code-keyword'>{part}</span>)
       } else if (part === 'hashMap') {
@@ -78,7 +88,7 @@ export const CodePreview: React.FC<CodePreviewProps> = ({
     return tokens
   }
 
-  const codeLines = generateCodeLines()
+  const codeLines: CodeLine[] = generateCodeLines()
 
   return (
     <div className='code-preview'>
@@ -91,7 +101,7 @@ export const CodePreview: React.FC<CodePreviewProps> = ({
         <span className='code-title'>demo.js</span>
       </div>
       <div className='code-content'>
-        {codeLines.map((line, index) => (
+        {codeLines.map((line: CodeLine, index: number) => (
           <div
             key={`${index}-${line.content}-${line.isStep ? line.stepIndex : 'static'}`}
             className={`code-line ${
