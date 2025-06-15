@@ -1,38 +1,16 @@
 import React, { useState } from 'react'
+import type { DemoOption } from '../data/dataStructuresDemos'
+
 interface DemonstrationsComponentProps {
+  demoOptions: DemoOption[]
   onSelectDemo: (demoType: string) => void
+  defaultDemo?: string
 }
 
-interface DemoOption {
-  id: string
-  label: string
-  description: string
-  complexity: 'Basic' | 'Intermediate' | 'Advanced'
-}
-
-const demoOptions: DemoOption[] = [
-  {
-    id: 'basic',
-    label: 'Basic Operations',
-    description: 'Simple get, set, and delete operations on hash map',
-    complexity: 'Basic',
-  },
-  {
-    id: 'collision',
-    label: 'Hash Collisions',
-    description: 'Understanding how collisions are handled with chaining',
-    complexity: 'Intermediate',
-  },
-  {
-    id: 'resize',
-    label: 'Dynamic Resizing',
-    description: 'Automatic resizing when load factor exceeds threshold',
-    complexity: 'Intermediate',
-  },
-]
-
-export const DemonstrationsComponent: React.FC<DemonstrationsComponentProps> = ({ onSelectDemo }) => {
-  const [selectedDemo, setSelectedDemo] = useState<string>('basic')
+export const DemonstrationsComponent: React.FC<
+  DemonstrationsComponentProps
+> = ({ demoOptions, onSelectDemo, defaultDemo = demoOptions[0]?.id || '' }) => {
+  const [selectedDemo, setSelectedDemo] = useState<string>(defaultDemo)
 
   const handleSelectDemo = (demoId: string) => {
     setSelectedDemo(demoId)
@@ -40,28 +18,30 @@ export const DemonstrationsComponent: React.FC<DemonstrationsComponentProps> = (
   }
 
   return (
-    <div className='eventloop-controls'>
-      <div className='controls-section controls-section--controls'>
-        <div className='controls-subsection'>
-          <h3 className='controls-title'>Demonstrations</h3>
-          <div className='demo-grid'>
+    <div className='demonstrations-container'>
+      <div className='demonstrations-section demonstrations-section--controls'>
+        <div className='demonstrations-subsection'>
+          <h3 className='demonstrations-title'>Demonstrations</h3>
+          <div className='demonstrations-grid'>
             {demoOptions.map((demo) => (
               <button
                 key={demo.id}
                 onClick={() => handleSelectDemo(demo.id)}
-                className={`demo-card ${
-                  selectedDemo === demo.id ? 'demo-card--selected' : ''
+                className={`demonstrations-card ${
+                  selectedDemo === demo.id
+                    ? 'demonstrations-card--selected'
+                    : ''
                 }`}
               >
-                <div className='demo-card-header'>
-                  <span className='demo-label'>{demo.label}</span>
+                <div className='demonstrations-card-header'>
+                  <span className='demonstrations-label'>{demo.label}</span>
                   <span
-                    className={`demo-complexity demo-complexity--${demo.complexity.toLowerCase()}`}
+                    className={`demonstrations-complexity demonstrations-complexity--${demo.complexity.toLowerCase()}`}
                   >
                     {demo.complexity}
                   </span>
                 </div>
-                <p className='demo-description'>{demo.description}</p>
+                <p className='demonstrations-description'>{demo.description}</p>
               </button>
             ))}
           </div>

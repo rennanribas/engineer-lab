@@ -6,6 +6,7 @@ import { CodePreview } from '../components/Visualization/CodePreview'
 import { MapVisualization } from '../components/Visualization/MapVisualization'
 import { HashMapVisualization } from '../components/Visualization/HashMapVisualization'
 import { DemonstrationsComponent } from '../components/Demonstrations'
+import { hashMapDemos } from '../data/dataStructuresDemos'
 
 const demoService = new HashMapService()
 
@@ -127,7 +128,10 @@ const DataStructuresContent: React.FC = () => {
             onPlay={handlePlay}
             onPause={handlePause}
           />
-          <DemonstrationsComponent onSelectDemo={handleSelectDemo} />
+          <DemonstrationsComponent
+            demoOptions={hashMapDemos}
+            onSelectDemo={handleSelectDemo}
+          />
         </div>
         <div className='visualizations'>
           <div className='visualization-panel'>
