@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { DemoService, type DemoState } from '../../services/DemoService'
+import { HashMapService, type DemoState } from '../../services/HashMapService'
 import { HashMapVisualization } from '../Visualization/HashMapVisualization'
 import { MapVisualization } from '../Visualization/MapVisualization'
 import { CodePreview } from '../Visualization/CodePreview'
@@ -7,7 +7,7 @@ import { DemoControls } from '../Controls/DemoControls'
 import { CodePreviewProvider } from '../../contexts/CodePreviewContext'
 import { useDemoCodeGenerator } from '../../hooks/useDemoCodeGenerator'
 
-const demoService = new DemoService()
+const demoService = new HashMapService()
 
 const DataStructuresContent: React.FC = () => {
   const [demoState, setDemoState] = useState<DemoState>(

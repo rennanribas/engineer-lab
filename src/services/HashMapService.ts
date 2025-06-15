@@ -17,7 +17,7 @@ export interface DemoState {
   isPlaying: boolean
 }
 
-export class DemoService {
+export class HashMapService {
   private hashMap: HashMap<string | number, string | number>
   private mapWrapper: MapWrapper<string | number, string | number>
   private steps: DemoStep[] = []
