@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { DemoService, type DemoState } from '../../services/DemoService'
 import { HashMapVisualization } from '../Visualization/HashMapVisualization'
 import { MapVisualization } from '../Visualization/MapVisualization'
+import { CodePreview } from '../Visualization/CodePreview'
 import { DemoControls } from '../Controls/DemoControls'
 
 const demoService = new DemoService()
@@ -113,17 +114,24 @@ export const DataStructuresContainer: React.FC = () => {
   return (
     <div className='demo-container'>
       <div className='demo-main'>
-        <DemoControls
-          steps={demoState.steps}
-          currentStep={demoState.currentStep}
-          isPlaying={demoState.isPlaying}
-          onNext={handleNext}
-          onPrevious={handlePrevious}
-          onReset={handleReset}
-          onPlay={handlePlay}
-          onPause={handlePause}
-          onSelectDemo={handleSelectDemo}
-        />
+        <div className='demo-controls-column'>
+          <CodePreview
+            steps={demoState.steps}
+            currentStep={demoState.currentStep}
+          />
+          
+          <DemoControls
+            steps={demoState.steps}
+            currentStep={demoState.currentStep}
+            isPlaying={demoState.isPlaying}
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+            onReset={handleReset}
+            onPlay={handlePlay}
+            onPause={handlePause}
+            onSelectDemo={handleSelectDemo}
+          />
+        </div>
 
         <div className='visualizations'>
           <div className='visualization-panel'>
