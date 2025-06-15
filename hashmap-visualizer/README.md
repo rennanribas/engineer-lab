@@ -2,9 +2,9 @@
 
 An interactive platform built with React and TypeScript for visualizing engineering concepts and data structures.
 
-🌐 **Live Demo**: [engineerlab.rennan.tech](https://engineerlab.rennan.tech)
+**Live Demo**: [engineerlab.rennan.tech](https://engineerlab.rennan.tech)
 
-## 🚀 Features
+## Features
 
 - **Interactive Visualizations**: See how engineering concepts work in real-time
 - **Educational Demonstrations**:
@@ -15,19 +15,34 @@ An interactive platform built with React and TypeScript for visualizing engineer
 - **Comparative Analysis**: Visualize different implementations and approaches
 - **Playback Controls**: Play, pause, step-by-step navigation
 
-## 🛠️ Technologies
+## Tech Stack
 
-- **React 19** - User interface
-- **TypeScript** - Static typing
-- **Vite** - Build tool and dev server
-- **CSS3** - Modern styling
-- **ESLint** - Code quality
+### Core Technologies
 
-## 📦 Installation
+- **React 19.1.0** - Modern user interface library with latest features
+- **TypeScript 5.8.3** - Static typing for enhanced development experience
+- **Vite 6.3.5** - Next-generation build tool and dev server
+- **CSS3** - Modern styling with advanced features
+
+### Development Tools
+
+- **ESLint 9.25.0** - Code quality and linting
+- **TypeScript ESLint 8.30.1** - TypeScript-specific linting rules
+- **React Hooks ESLint Plugin** - React hooks best practices
+- **React Refresh ESLint Plugin** - Fast refresh support
+
+### Build Configuration
+
+- **ES2020/ES2022** - Modern JavaScript features
+- **JSX React Transform** - Optimized JSX compilation
+- **Bundler Module Resolution** - Advanced module resolution
+- **Strict TypeScript** - Enhanced type checking
+
+## Installation
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/rennanribas/engineer-lab
 cd engineer-lab
 
 # Install dependencies
@@ -37,65 +52,13 @@ npm install
 npm run dev
 ```
 
-## 🎯 How to Use
+## Available Scripts
 
-1. **Select a Concept**: Choose from available engineering concepts and data structures
-2. **Control Playback**: Use play/pause buttons or navigate manually
-3. **Observe Visualizations**: Watch real-time changes and interactions
-4. **Learn**: Understand how each concept works through interactive demonstrations
+[![Package Scripts](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Frennanribas%2Fengineer-lab%2Fmain%2Fpackage.json&query=%24.scripts&label=scripts&color=blue)](https://github.com/rennanribas/engineer-lab/blob/main/package.json#L16-L21)
 
-## 🏗️ Architecture
+> **Note**: Scripts are automatically synced from [`package.json`](https://github.com/rennanribas/engineer-lab/blob/main/package.json) in the repository.
 
-```
-src/
-├── components/          # React components
-│   ├── Demo/           # Controls and main container
-│   ├── Layout/         # Application layout
-│   └── Visualization/  # Visualization components
-├── core/               # HashMap implementation
-├── services/           # Business logic and demos
-└── types/              # TypeScript type definitions
-```
-
-## 🎨 Features
-
-### Basic Operations
-
-- Element insertion
-- Key search
-- Element removal
-- Hash function visualization
-
-### Collision Handling
-
-- Hash collision demonstration
-- Resolution strategies
-- Performance impact
-
-### Dynamic Resizing
-
-- Automatic HashMap expansion
-- Element rehashing
-- Performance optimization
-
-## 📱 Responsiveness
-
-The application is fully responsive and works on:
-
-- Desktop (1024px+)
-- Tablet (768px - 1023px)
-- Mobile (up to 767px)
-
-## 🚀 Available Scripts
-
-```bash
-npm run dev      # Development server
-npm run build    # Production build
-npm run preview  # Build preview
-npm run lint     # Code linting
-```
-
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Feel free to:
 
@@ -105,17 +68,16 @@ Contributions are welcome! Feel free to:
 4. Push to the branch
 5. Open a Pull Request
 
-## 🎓 Educational Purpose
+## Educational Purpose
 
-This project was developed with an educational focus to help students and developers better understand the internal workings of HashMaps through interactive visualizations and practical demonstrations.
+This project was developed with an educational focus to help students and developers better understand the internal workings through interactive visualizations and practical demonstrations.
 
-## 👨‍💻 Author
+## Author
 
 **Rennan Ribas**
+
 - Website: [engineerlab.rennan.tech](https://engineerlab.rennan.tech)
 - GitHub: [rennanribas](https://github.com/rennanribas)
 - Project Repository: [Engineer Lab](https://github.com/rennanribas/engineer-lab)
 
 ---
-
-**Engineer Lab** - Making engineering concepts learning more visual and interactive! 🎯
