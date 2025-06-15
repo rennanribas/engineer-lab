@@ -871,10 +871,6 @@ body {
   margin-bottom: var(--space-4);
 }
 
-.order-list,
-.entries {
-}
-
 .order-item {
   background: var(--bg-secondary);
   padding: var(--space-3);

@@ -39,14 +39,14 @@ jobs:
               sudo chmod +x /usr/local/bin/docker-compose
             fi
             
-            # Setup firewall if not configured
-            if ! command -v ufw &> /dev/null; then
-              sudo dnf install -y ufw
-              sudo systemctl enable ufw
-              sudo ufw --force enable
-              sudo ufw allow ssh
-              sudo ufw allow 80
-              sudo ufw allow 443
+            # Configure firewall using firewalld (Amazon Linux 2023 default)
+            if command -v firewall-cmd &> /dev/null; then
+              sudo systemctl start firewalld
+              sudo systemctl enable firewalld
+              sudo firewall-cmd --permanent --add-service=ssh
+              sudo firewall-cmd --permanent --add-service=http
+              sudo firewall-cmd --permanent --add-service=https
+              sudo firewall-cmd --reload
             fi
             
             # Clone or update repository
@@ -59,8 +59,9 @@ jobs:
               cd "$PROJECT_DIR"
             fi
             
-            # Stop existing containers
+            # Stop and remove existing containers
             docker-compose down || true
+            docker container rm -f engineer-lab-app engineer-lab-nginx 2>/dev/null || true
             
             # Setup SSL directory
             mkdir -p ssl
