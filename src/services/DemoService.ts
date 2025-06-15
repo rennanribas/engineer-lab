@@ -170,23 +170,34 @@ export class DemoService {
 
   nextStep(): boolean {
     if (this.currentStep < this.steps.length) {
-      this.executeStep(this.steps[this.currentStep])
-      this.currentStep++
-      return true
+      const step = this.steps[this.currentStep]
+      if (step) {
+        this.executeStep(step)
+        this.currentStep++
+        return true
+      }
     }
     return false
   }
 
   previousStep(): boolean {
     if (this.currentStep > 0) {
-      this.reset()
-      for (let i = 0; i < this.currentStep - 1; i++) {
-        this.executeStep(this.steps[i])
-      }
       this.currentStep--
+      this.rebuildState()
       return true
     }
     return false
+  }
+
+  private rebuildState(): void {
+    this.hashMap.clear()
+    this.mapWrapper.clear()
+    for (let i = 0; i < this.currentStep; i++) {
+      const step = this.steps[i]
+      if (step) {
+        this.executeStep(step)
+      }
+    }
   }
 
   setPlaying(playing: boolean): void {

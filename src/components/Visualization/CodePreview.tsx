@@ -51,26 +51,27 @@ export const CodePreview: React.FC<CodePreviewProps> = ({
     const parts = line.split(/([\w]+|[.(),'"\s]+)/g).filter(Boolean)
     
     parts.forEach((part, index) => {
+      const key = `${line}-${index}-${part}`
       if (part === 'const') {
-        tokens.push(<span key={index} className='code-keyword'>{part}</span>)
+        tokens.push(<span key={key} className='code-keyword'>{part}</span>)
       } else if (part === 'hashMap') {
-        tokens.push(<span key={index} className='code-variable'>{part}</span>)
+        tokens.push(<span key={key} className='code-variable'>{part}</span>)
       } else if (part === 'new') {
-        tokens.push(<span key={index} className='code-keyword'>{part}</span>)
+        tokens.push(<span key={key} className='code-keyword'>{part}</span>)
       } else if (part === 'HashMap') {
-        tokens.push(<span key={index} className='code-class'>{part}</span>)
+        tokens.push(<span key={key} className='code-class'>{part}</span>)
       } else if (['set', 'get', 'delete'].includes(part)) {
-        tokens.push(<span key={index} className='code-method'>{part}</span>)
+        tokens.push(<span key={key} className='code-method'>{part}</span>)
       } else if (part === '=') {
-        tokens.push(<span key={index} className='code-operator'>{part}</span>)
+        tokens.push(<span key={key} className='code-operator'>{part}</span>)
       } else if (['(', ')', '.'].includes(part)) {
-        tokens.push(<span key={index} className='code-bracket'>{part}</span>)
+        tokens.push(<span key={key} className='code-bracket'>{part}</span>)
       } else if (part.startsWith("'") && part.endsWith("'")) {
-        tokens.push(<span key={index} className='code-param'>{part}</span>)
+        tokens.push(<span key={key} className='code-param'>{part}</span>)
       } else if (!isNaN(Number(part))) {
-        tokens.push(<span key={index} className='code-param'>{part}</span>)
+        tokens.push(<span key={key} className='code-param'>{part}</span>)
       } else {
-        tokens.push(<span key={index}>{part}</span>)
+        tokens.push(<span key={key}>{part}</span>)
       }
     })
     
@@ -92,7 +93,7 @@ export const CodePreview: React.FC<CodePreviewProps> = ({
       <div className='code-content'>
         {codeLines.map((line, index) => (
           <div
-            key={index}
+            key={`${index}-${line.content}-${line.isStep ? line.stepIndex : 'static'}`}
             className={`code-line ${
               line.isFaded ? 'code-line--fade' : ''
             } ${

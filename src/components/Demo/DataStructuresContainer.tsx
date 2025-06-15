@@ -20,17 +20,11 @@ export const DataStructuresContainer: React.FC = () => {
     const newState = demoService.getCurrentState()
     setDemoState(newState)
 
-    // Highlight the key from the current step and set operation type
+    // Simple highlight logic
     if (newState.currentStep > 0 && newState.steps[newState.currentStep - 1]) {
       const currentStep = newState.steps[newState.currentStep - 1]
       setHighlightedKey(currentStep.key)
       setCurrentOperation(currentStep.operation)
-      
-      // Clear highlight after animation duration
-      setTimeout(() => {
-        setHighlightedKey(undefined)
-        setCurrentOperation(undefined)
-      }, 1500)
     } else {
       setHighlightedKey(undefined)
       setCurrentOperation(undefined)
