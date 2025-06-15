@@ -13,17 +13,26 @@ export const DataStructuresContainer: React.FC = () => {
   const [highlightedKey, setHighlightedKey] = useState<
     string | number | undefined
   >()
+  const [currentOperation, setCurrentOperation] = useState<string | undefined>()
 
   const updateState = useCallback(() => {
     const newState = demoService.getCurrentState()
     setDemoState(newState)
 
-    // Highlight the key from the current step
+    // Highlight the key from the current step and set operation type
     if (newState.currentStep > 0 && newState.steps[newState.currentStep - 1]) {
       const currentStep = newState.steps[newState.currentStep - 1]
       setHighlightedKey(currentStep.key)
+      setCurrentOperation(currentStep.operation)
+      
+      // Clear highlight after animation duration
+      setTimeout(() => {
+        setHighlightedKey(undefined)
+        setCurrentOperation(undefined)
+      }, 1500)
     } else {
       setHighlightedKey(undefined)
+      setCurrentOperation(undefined)
     }
   }, [])
 
@@ -121,6 +130,7 @@ export const DataStructuresContainer: React.FC = () => {
             <MapVisualization
               data={demoState.mapData}
               highlightedKey={highlightedKey}
+              currentOperation={currentOperation}
             />
           </div>
 
@@ -128,6 +138,7 @@ export const DataStructuresContainer: React.FC = () => {
             <HashMapVisualization
               data={demoState.hashMapData}
               highlightedKey={highlightedKey}
+              currentOperation={currentOperation}
             />
           </div>
         </div>

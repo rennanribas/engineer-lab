@@ -1,16 +1,36 @@
 import React from 'react'
+import { useEffect, useState } from 'react'
 import type { HashMapVisualizationData } from '../../core/HashMap'
 
 interface HashMapVisualizationProps {
   data: HashMapVisualizationData<string | number, string | number>
   highlightedKey?: string | number
+  currentOperation?: string
 }
 
 export const HashMapVisualization: React.FC<HashMapVisualizationProps> = ({
   data,
   highlightedKey,
+  currentOperation,
 }) => {
   const { buckets, size, capacity, loadFactor } = data
+  const [activeBucket, setActiveBucket] = useState<number | null>(null)
+
+  // Find which bucket contains the highlighted key
+  useEffect(() => {
+    if (highlightedKey !== undefined) {
+      const bucketIndex = buckets.findIndex(bucket => 
+        bucket.some(entry => entry.key === highlightedKey)
+      )
+      if (bucketIndex !== -1) {
+        setActiveBucket(bucketIndex)
+        // Reset after animation duration
+        const timer = setTimeout(() => setActiveBucket(null), 1000)
+        return () => clearTimeout(timer)
+      }
+    }
+    setActiveBucket(null)
+  }, [highlightedKey, buckets])
 
   return (
     <div className='hashmap-visualization'>
@@ -25,7 +45,10 @@ export const HashMapVisualization: React.FC<HashMapVisualizationProps> = ({
 
       <div className='buckets-container'>
         {buckets.map((bucket, index) => (
-          <div key={index} className='bucket'>
+          <div 
+            key={index} 
+            className={`bucket ${activeBucket === index ? 'active' : ''}`}
+          >
             <div className='bucket-header'>
               <span className='bucket-index'>{index}</span>
             </div>
@@ -35,11 +58,15 @@ export const HashMapVisualization: React.FC<HashMapVisualizationProps> = ({
               ) : (
                 bucket.map((entry, entryIndex) => (
                   <div
-                    key={entryIndex}
-                    className={`entry ${
-                      entry.key === highlightedKey ? 'highlighted' : ''
-                    }`}
-                  >
+                  key={entryIndex}
+                  className={`entry ${
+                    entry.key === highlightedKey ? 'highlighted' : ''
+                  } ${
+                    entry.key === highlightedKey && currentOperation 
+                      ? `operation-${currentOperation}` 
+                      : ''
+                  }`}
+                >
                     <span className='entry-key'>{String(entry.key)}</span>
                     <span className='entry-separator'>:</span>
                     <span className='entry-value'>{String(entry.value)}</span>

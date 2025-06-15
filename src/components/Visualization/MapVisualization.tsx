@@ -4,11 +4,13 @@ import type { MapVisualizationData } from '../../core/MapWrapper'
 interface MapVisualizationProps {
   data: MapVisualizationData<string | number, string | number>
   highlightedKey?: string | number
+  currentOperation?: string
 }
 
 export const MapVisualization: React.FC<MapVisualizationProps> = ({
   data,
   highlightedKey,
+  currentOperation,
 }) => {
   const { entries, size, insertionOrder } = data
 
@@ -31,6 +33,10 @@ export const MapVisualization: React.FC<MapVisualizationProps> = ({
                 key={index}
                 className={`order-item ${
                   key === highlightedKey ? 'highlighted' : ''
+                } ${
+                  key === highlightedKey && currentOperation 
+                    ? `operation-${currentOperation}` 
+                    : ''
                 }`}
               >
                 {index + 1}. {String(key)}
@@ -50,6 +56,10 @@ export const MapVisualization: React.FC<MapVisualizationProps> = ({
                   key={index}
                   className={`map-entry ${
                     key === highlightedKey ? 'highlighted' : ''
+                  } ${
+                    key === highlightedKey && currentOperation 
+                      ? `operation-${currentOperation}` 
+                      : ''
                   }`}
                 >
                   <span className='entry-key'>{String(key)}</span>
