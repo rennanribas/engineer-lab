@@ -1,56 +1,10 @@
 import React from 'react'
-import type { DemoStep } from '../../services/DemoService'
-
-interface CodePreviewProps {
-  steps: DemoStep[]
-  currentStep: number
-}
-
-interface CodeLine {
-  content: string
-  isStep: boolean
-  stepIndex?: number
-  isActive?: boolean
-  isFaded?: boolean
-}
+import { useCodePreview } from '../../hooks/useCodePreview'
 
 type CodeToken = React.ReactElement<HTMLSpanElement>
 
-export const CodePreview: React.FC<CodePreviewProps> = ({
-  steps,
-  currentStep,
-}) => {
-  const generateCodeLines = (): CodeLine[] => {
-    const lines: CodeLine[] = [
-      { content: 'const hashMap = new HashMap()', isStep: false },
-      { content: '', isStep: false },
-    ]
-
-    steps.forEach((step: DemoStep, index: number) => {
-      let codeLine: string = ''
-      switch (step.operation) {
-        case 'set':
-          codeLine = `hashMap.set('${step.key}', ${typeof step.value === 'string' ? `'${step.value}'` : step.value})`
-          break
-        case 'get':
-          codeLine = `hashMap.get('${step.key}')`
-          break
-        case 'delete':
-          codeLine = `hashMap.delete('${step.key}')`
-          break
-      }
-      
-      lines.push({
-        content: codeLine,
-        isStep: true,
-        stepIndex: index,
-        isActive: index === currentStep - 1,
-        isFaded: currentStep > 0 && index !== currentStep - 1
-      })
-    })
-
-    return lines
-  }
+export const CodePreview: React.FC = () => {
+  const { state } = useCodePreview()
 
 
 
@@ -88,8 +42,6 @@ export const CodePreview: React.FC<CodePreviewProps> = ({
     return tokens
   }
 
-  const codeLines: CodeLine[] = generateCodeLines()
-
   return (
     <div className='code-preview'>
       <div className='code-header'>
@@ -98,10 +50,10 @@ export const CodePreview: React.FC<CodePreviewProps> = ({
           <span></span>
           <span></span>
         </div>
-        <span className='code-title'>demo.js</span>
+        <span className='code-title'>{state.title}</span>
       </div>
       <div className='code-content'>
-        {codeLines.map((line: CodeLine, index: number) => (
+        {state.lines.map((line, index: number) => (
           <div
             key={`${index}-${line.content}-${line.isStep ? line.stepIndex : 'static'}`}
             className={`code-line ${

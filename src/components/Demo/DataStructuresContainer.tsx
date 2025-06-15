@@ -4,10 +4,12 @@ import { HashMapVisualization } from '../Visualization/HashMapVisualization'
 import { MapVisualization } from '../Visualization/MapVisualization'
 import { CodePreview } from '../Visualization/CodePreview'
 import { DemoControls } from '../Controls/DemoControls'
+import { CodePreviewProvider } from '../../contexts/CodePreviewContext'
+import { useDemoCodeGenerator } from '../../hooks/useDemoCodeGenerator'
 
 const demoService = new DemoService()
 
-export const DataStructuresContainer: React.FC = () => {
+const DataStructuresContent: React.FC = () => {
   const [demoState, setDemoState] = useState<DemoState>(
     demoService.getCurrentState()
   )
@@ -15,12 +17,13 @@ export const DataStructuresContainer: React.FC = () => {
     string | number | undefined
   >()
   const [currentOperation, setCurrentOperation] = useState<string | undefined>()
+  const { updateCodePreview } = useDemoCodeGenerator()
 
   const updateState = useCallback(() => {
     const newState = demoService.getCurrentState()
     setDemoState(newState)
+    updateCodePreview(newState.steps, newState.currentStep)
 
-    // Simple highlight logic
     if (newState.currentStep > 0 && newState.steps[newState.currentStep - 1]) {
       const currentStep = newState.steps[newState.currentStep - 1]
       setHighlightedKey(currentStep.key)
@@ -29,7 +32,7 @@ export const DataStructuresContainer: React.FC = () => {
       setHighlightedKey(undefined)
       setCurrentOperation(undefined)
     }
-  }, [])
+  }, [updateCodePreview])
 
   const handleSelectDemo = useCallback(
     (demoType: string) => {
@@ -109,10 +112,7 @@ export const DataStructuresContainer: React.FC = () => {
     <div className='demo-container'>
       <div className='demo-main'>
         <div className='demo-controls-column'>
-          <CodePreview
-            steps={demoState.steps}
-            currentStep={demoState.currentStep}
-          />
+          <CodePreview />
           
           <DemoControls
             steps={demoState.steps}
@@ -146,5 +146,13 @@ export const DataStructuresContainer: React.FC = () => {
         </div>
       </div>
     </div>
+  )
+}
+
+export const DataStructuresContainer: React.FC = () => {
+  return (
+    <CodePreviewProvider initialTitle="hashmap-demo.js">
+      <DataStructuresContent />
+    </CodePreviewProvider>
   )
 }
