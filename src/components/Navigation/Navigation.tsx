@@ -30,17 +30,6 @@ export const Navigation = () => {
             className='brand-button'
             aria-label='Go to home'
           >
-            <div className='brand-icon'>
-              <svg viewBox='0 0 24 24' fill='currentColor'>
-                <path d='M12 2L2 7v10c0 5.55 3.84 10 9 11 5.16-1 9-5.45 9-11V7l-10-5z' />
-                <path
-                  d='M9 12h6M9 16h6M9 8h6'
-                  stroke='currentColor'
-                  strokeWidth='1.5'
-                  fill='none'
-                />
-              </svg>
-            </div>
             <span className='brand-text'>Engineer Lab</span>
           </button>
         </div>

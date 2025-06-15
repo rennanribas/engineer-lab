@@ -25,7 +25,7 @@ export class DemoService {
   private isPlaying: boolean = false
 
   constructor() {
-    this.hashMap = new HashMap<string | number, string | number>()
+    this.hashMap = new HashMap<string | number, string | number>(8)
     this.mapWrapper = new MapWrapper<string | number, string | number>()
   }
 

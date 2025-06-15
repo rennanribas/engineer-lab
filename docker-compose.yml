@@ -11,8 +11,8 @@ services:
     container_name: engineer-lab-nginx
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'
     volumes:
       - ./nginx-proxy.conf:/etc/nginx/nginx.conf
       - ./ssl:/etc/nginx/ssl

@@ -117,15 +117,15 @@ export const DemoContainer: React.FC = () => {
 
       <div className='visualizations'>
         <div className='visualization-panel'>
-          <HashMapVisualization
-            data={demoState.hashMapData}
+          <MapVisualization
+            data={demoState.mapData}
             highlightedKey={highlightedKey}
           />
         </div>
 
         <div className='visualization-panel'>
-          <MapVisualization
-            data={demoState.mapData}
+          <HashMapVisualization
+            data={demoState.hashMapData}
             highlightedKey={highlightedKey}
           />
         </div>
