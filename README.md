@@ -98,10 +98,26 @@ The GitHub Actions workflow will automatically:
 - Build and deploy the application
 
 ### Local Development
-
 ```bash
 docker-compose up --build
 ```
+
+## Security & Rate Limiting
+
+The application includes built-in protection against malicious bots and automated attacks:
+
+### Rate Limiting Configuration
+- **Main Application**: 60 requests per minute with burst capacity of 15
+- **Static Assets**: 300 requests per minute with burst capacity of 100
+- **Automatic blocking** of common attack patterns (`.env`, `wp-admin`, `phpmyadmin`, etc.)
+
+### Protection Features
+- Prevents access to sensitive files and directories
+- Optimized for React SPA navigation patterns
+- Aggressive caching for static assets
+- Zero impact on legitimate user experience
+
+The rate limiting is specifically tuned for single-page applications, allowing normal user navigation while blocking automated scanning and attack attempts.
 
 ## Contributing
 

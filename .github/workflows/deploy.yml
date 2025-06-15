@@ -30,6 +30,7 @@ jobs:
             sudo systemctl start docker
             sudo systemctl enable docker
             sudo usermod -aG docker $USER
+            newgrp docker
           fi
           
           # Install Docker Compose if not present
@@ -49,7 +50,7 @@ jobs:
           fi
           
           # Clone or update repository
-          PROJECT_DIR="/home/${{ secrets.EC2_USER }}/hashmap-visualizer"
+          PROJECT_DIR="/home/${{ secrets.EC2_USER }}/engineer-lab"
           if [ -d "$PROJECT_DIR" ]; then
             cd "$PROJECT_DIR"
             git pull origin main
@@ -60,7 +61,6 @@ jobs:
           
           # Stop existing containers
           docker-compose down || true
-          docker system prune -f
           
           # Setup SSL directory
           mkdir -p ssl
