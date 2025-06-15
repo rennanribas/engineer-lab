@@ -62,9 +62,19 @@ npm run dev
 
 ## Available Scripts
 
-[![Package Scripts](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Frennanribas%2Fengineer-lab%2Fmain%2Fpackage.json&query=%24.scripts&label=scripts&color=blue)](https://github.com/rennanribas/engineer-lab/blob/main/package.json#L16-L21)
+```bash
+# Start development server
+npm run dev
 
-> **Note**: Scripts are automatically synced from [`package.json`](https://github.com/rennanribas/engineer-lab/blob/main/package.json) in the repository.
+# Build for production
+npm run build
+
+# Run ESLint for code quality
+npm run lint
+
+# Preview production build locally
+npm run preview
+```
 
 ## Deployment
 
