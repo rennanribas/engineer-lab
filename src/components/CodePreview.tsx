@@ -1,5 +1,5 @@
 import React from 'react'
-import { useCodePreview } from '../../hooks/useCodePreview'
+import { useCodePreview } from '../hooks/useCodePreview'
 
 type CodeToken = React.ReactElement<HTMLSpanElement>
 

@@ -12,6 +12,7 @@ export interface EventLoopStep {
   action: 'push' | 'pop' | 'move' | 'execute'
   target: 'callStack' | 'taskQueue' | 'microtaskQueue' | 'webApis'
   task?: EventLoopTask
+  operation?: string // Added operation property
 }
 
 export interface EventLoopState {

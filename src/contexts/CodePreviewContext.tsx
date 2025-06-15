@@ -43,10 +43,21 @@ export const CodePreviewProvider: React.FC<CodePreviewProviderProps> = ({
 
   const generateLines = useCallback(
     <T,>(steps: T[], currentStep: number, generator: (step: T) => string) => {
-      const lines: CodeLine[] = [
-        { content: 'const hashMap = new HashMap()', isStep: false },
-        { content: '', isStep: false },
-      ]
+      const initialLines = state.title.includes('event-loop') 
+        ? [
+            { content: 'console.log("Start")', isStep: false },
+            { content: 'setTimeout(() => console.log("Timeout"), 0)', isStep: false },
+            { content: 'Promise.resolve().then(() => console.log("Promise"))', isStep: false },
+            { content: 'console.log("End")', isStep: false },
+            { content: '', isStep: false },
+            { content: '// Event Loop Execution:', isStep: false },
+          ]
+        : [
+            { content: 'const hashMap = new HashMap()', isStep: false },
+            { content: '', isStep: false },
+          ]
+      
+      const lines: CodeLine[] = [...initialLines]
 
       steps.forEach((step: T, stepIndex: number) => {
         const codeLine = generator(step)

@@ -1,23 +1,26 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import {
-  EventLoopService,
-  type EventLoopState,
-} from '../services/EventLoopService'
-import { EventLoopControls } from '../components/Controls/EventLoopControls'
-import { EventLoopVisualization } from '../components/Visualization/EventLoopVisualization'
+import React, { useState, useEffect, useCallback } from 'react'
+import { EventLoopService, type EventLoopState } from '../services/EventLoopService'
+import { EventLoopVisualization } from '../components/Visualization/eventloopvisualization'
+import { CodePreview } from '../components/CodePreview'
+import { DemonstrationsComponent } from '../components/Demonstrations'
+import { eventLoopDemoOptions } from '../data/eventLoopDemos'
+import { CodePreviewProvider } from '../contexts/CodePreviewContext'
+import { useEventLoopCodeGenerator } from '../hooks/useEventLoopCodeGenerator'
 import { EventLoopInfo } from '../components/EventLoopInfo'
 
 const eventLoopService = new EventLoopService()
 
-export const EventLoop: React.FC = () => {
+const EventLoopContent: React.FC = () => {
   const [eventLoopState, setEventLoopState] = useState<EventLoopState>(
     eventLoopService.getCurrentState()
   )
+  const { updateCodePreview } = useEventLoopCodeGenerator()
 
   const updateState = useCallback(() => {
     const newState = eventLoopService.getCurrentState()
     setEventLoopState(newState)
-  }, [])
+    updateCodePreview(newState.steps, newState.currentStep)
+  }, [updateCodePreview])
 
   const handleSelectDemo = useCallback(
     (demoType: string) => {
@@ -71,17 +74,21 @@ export const EventLoop: React.FC = () => {
 
   useEffect(() => {
     let interval: number
-    if (
-      eventLoopState.isPlaying &&
-      eventLoopState.currentStep < eventLoopState.steps.length
-    ) {
-      interval = setInterval(() => {
-        const hasNext = eventLoopService.nextStep()
-        if (!hasNext) {
-          eventLoopService.setPlaying(false)
-        }
+    if (eventLoopState.isPlaying) {
+      if (eventLoopState.currentStep >= eventLoopState.steps.length) {
+        eventLoopService.setPlaying(false)
         updateState()
-      }, 2000)
+      } else {
+        interval = setInterval(() => {
+          const hasNext = eventLoopService.nextStep()
+          const newState = eventLoopService.getCurrentState()
+
+          if (!hasNext || newState.currentStep >= newState.steps.length) {
+            eventLoopService.setPlaying(false)
+          }
+          updateState()
+        }, 1500)
+      }
     }
     return () => {
       if (interval) clearInterval(interval)
@@ -100,8 +107,13 @@ export const EventLoop: React.FC = () => {
   return (
     <div className='eventloop-container'>
       <div className='eventloop-main'>
-        <EventLoopControls
-          steps={eventLoopState.steps}
+        <DemonstrationsComponent 
+          demoOptions={eventLoopDemoOptions} 
+          onSelectDemo={handleSelectDemo} 
+          defaultDemo={eventLoopDemoOptions[0]?.id || ''} 
+        />
+        <CodePreview 
+          steps={eventLoopState.steps.map(step => ({ ...step, operation: step.operation || `${step.action} ${step.target}${step.task ? ` (${step.task.name})` : ''}` }))}
           currentStep={eventLoopState.currentStep}
           isPlaying={eventLoopState.isPlaying}
           onNext={handleNext}
@@ -109,9 +121,7 @@ export const EventLoop: React.FC = () => {
           onReset={handleReset}
           onPlay={handlePlay}
           onPause={handlePause}
-          onSelectDemo={handleSelectDemo}
         />
-
         <EventLoopVisualization
           callStack={eventLoopState.callStack}
           taskQueue={eventLoopState.taskQueue}
@@ -124,5 +134,13 @@ export const EventLoop: React.FC = () => {
 
       <EventLoopInfo />
     </div>
+  )
+}
+
+export const EventLoop: React.FC = () => {
+  return (
+    <CodePreviewProvider initialTitle='event-loop-demo.js'>
+      <EventLoopContent />
+    </CodePreviewProvider>
   )
 }
