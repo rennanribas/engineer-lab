@@ -143,6 +143,7 @@ export const CodePreview: React.FC<CodePreviewProps> = ({
             <button
               onClick={onPause}
               className='debug-btn debug-btn--pause'
+              disabled={currentStep >= steps.length}
               title='Pause'
             >
               ⏸

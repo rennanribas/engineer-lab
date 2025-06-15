@@ -10,8 +10,12 @@ import { useDemoCodeGenerator } from '../../hooks/useDemoCodeGenerator'
 const demoService = new DemoService()
 
 const DataStructuresContent: React.FC = () => {
-  const [demoState, setDemoState] = useState<DemoState>(demoService.getCurrentState())
-  const [highlightedKey, setHighlightedKey] = useState<string | number | undefined>()
+  const [demoState, setDemoState] = useState<DemoState>(
+    demoService.getCurrentState()
+  )
+  const [highlightedKey, setHighlightedKey] = useState<
+    string | number | undefined
+  >()
   const [currentOperation, setCurrentOperation] = useState<string | undefined>()
   const { updateCodePreview } = useDemoCodeGenerator()
 
@@ -30,24 +34,27 @@ const DataStructuresContent: React.FC = () => {
     }
   }, [updateCodePreview])
 
-  const handleSelectDemo = useCallback((demoType: string) => {
-    let steps
-    switch (demoType) {
-      case 'basic':
-        steps = demoService.createBasicDemo()
-        break
-      case 'collision':
-        steps = demoService.createCollisionDemo()
-        break
-      case 'resize':
-        steps = demoService.createResizeDemo()
-        break
-      default:
-        steps = demoService.createBasicDemo()
-    }
-    demoService.setSteps(steps)
-    updateState()
-  }, [updateState])
+  const handleSelectDemo = useCallback(
+    (demoType: string) => {
+      let steps
+      switch (demoType) {
+        case 'basic':
+          steps = demoService.createBasicDemo()
+          break
+        case 'collision':
+          steps = demoService.createCollisionDemo()
+          break
+        case 'resize':
+          steps = demoService.createResizeDemo()
+          break
+        default:
+          steps = demoService.createBasicDemo()
+      }
+      demoService.setSteps(steps)
+      updateState()
+    },
+    [updateState]
+  )
 
   const handleNext = useCallback(() => {
     demoService.nextStep()
@@ -76,19 +83,31 @@ const DataStructuresContent: React.FC = () => {
 
   useEffect(() => {
     let interval: number
-    if (demoState.isPlaying && demoState.currentStep < demoState.steps.length) {
-      interval = setInterval(() => {
-        const hasNext = demoService.nextStep()
-        if (!hasNext) {
-          demoService.setPlaying(false)
-        }
+    if (demoState.isPlaying) {
+      if (demoState.currentStep >= demoState.steps.length) {
+        demoService.setPlaying(false)
         updateState()
-      }, 1500)
+      } else {
+        interval = setInterval(() => {
+          const hasNext = demoService.nextStep()
+          const newState = demoService.getCurrentState()
+
+          if (!hasNext || newState.currentStep >= newState.steps.length) {
+            demoService.setPlaying(false)
+          }
+          updateState()
+        }, 1500)
+      }
     }
     return () => {
       if (interval) clearInterval(interval)
     }
-  }, [demoState.isPlaying, demoState.currentStep, demoState.steps.length, updateState])
+  }, [
+    demoState.isPlaying,
+    demoState.currentStep,
+    demoState.steps.length,
+    updateState,
+  ])
 
   useEffect(() => {
     handleSelectDemo('basic')
@@ -134,7 +153,7 @@ const DataStructuresContent: React.FC = () => {
 
 export const DataStructuresContainer: React.FC = () => {
   return (
-    <CodePreviewProvider initialTitle="hashmap-demo.js">
+    <CodePreviewProvider initialTitle='hashmap-demo.js'>
       <DataStructuresContent />
     </CodePreviewProvider>
   )
