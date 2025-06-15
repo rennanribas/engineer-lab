@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 
 // Navigation items configuration - following data-driven approach
@@ -51,8 +51,11 @@ interface NavLinkProps {
 }
 
 function NavLink({ to, children, onClick }: NavLinkProps) {
+  const location = useLocation()
+  const isActive = location.pathname === to
+  
   return (
-    <Link to={to} onClick={onClick} className='nav-item'>
+    <Link to={to} onClick={onClick} className={`nav-item ${isActive ? 'nav-item--active' : ''}`}>
       {children}
     </Link>
   )
