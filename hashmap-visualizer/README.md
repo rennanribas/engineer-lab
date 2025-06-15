@@ -38,6 +38,14 @@ An interactive platform built with React and TypeScript for visualizing engineer
 - **Bundler Module Resolution** - Advanced module resolution
 - **Strict TypeScript** - Enhanced type checking
 
+### Deployment & Infrastructure
+
+- **Docker** - Containerization for consistent deployments
+- **Docker Compose** - Multi-container orchestration
+- **Nginx** - High-performance web server and reverse proxy
+- **GitHub Actions** - Automated CI/CD pipeline
+- **Let's Encrypt** - Automated SSL certificate management
+
 ## Installation
 
 ```bash
@@ -57,6 +65,33 @@ npm run dev
 [![Package Scripts](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Frennanribas%2Fengineer-lab%2Fmain%2Fpackage.json&query=%24.scripts&label=scripts&color=blue)](https://github.com/rennanribas/engineer-lab/blob/main/package.json#L16-L21)
 
 > **Note**: Scripts are automatically synced from [`package.json`](https://github.com/rennanribas/engineer-lab/blob/main/package.json) in the repository.
+
+## Deployment
+
+### EC2 Setup
+
+1. Launch an EC2 instance (Amazon Linux 2023, t2.micro for free tier)
+2. Configure GitHub Secrets:
+   - `EC2_HOST`: Your EC2 public IP
+   - `EC2_USER`: ec2-user
+   - `EC2_SSH_KEY`: Your private SSH key
+   - `DOMAIN_NAME`: Your domain (optional)
+   - `SSL_EMAIL`: Your email for SSL certificates
+
+3. Push to main branch to trigger automated deployment
+
+The GitHub Actions workflow will automatically:
+- Install Docker and Docker Compose
+- Configure firewall settings
+- Clone/update the repository
+- Generate SSL certificates (Let's Encrypt or self-signed)
+- Build and deploy the application
+
+### Local Development
+
+```bash
+docker-compose up --build
+```
 
 ## Contributing
 
