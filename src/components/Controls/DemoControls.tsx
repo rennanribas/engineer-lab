@@ -13,6 +13,34 @@ interface DemoControlsProps {
   onSelectDemo: (demoType: string) => void
 }
 
+interface DemoOption {
+  id: string
+  label: string
+  description: string
+  complexity: 'Basic' | 'Intermediate' | 'Advanced'
+}
+
+const demoOptions: DemoOption[] = [
+  {
+    id: 'basic',
+    label: 'Basic Operations',
+    description: 'Simple get, set, and delete operations on hash map',
+    complexity: 'Basic',
+  },
+  {
+    id: 'collision',
+    label: 'Hash Collisions',
+    description: 'Understanding how collisions are handled with chaining',
+    complexity: 'Intermediate',
+  },
+  {
+    id: 'resize',
+    label: 'Dynamic Resizing',
+    description: 'Automatic resizing when load factor exceeds threshold',
+    complexity: 'Intermediate',
+  },
+]
+
 export const DemoControls: React.FC<DemoControlsProps> = ({
   steps,
   currentStep,
@@ -24,104 +52,119 @@ export const DemoControls: React.FC<DemoControlsProps> = ({
   onPause,
   onSelectDemo,
 }) => {
-  const currentStepData = steps[currentStep - 1]
+  const canGoNext = currentStep < steps.length
+  const canGoPrevious = currentStep > 0
+  const progress = steps.length > 0 ? (currentStep / steps.length) * 100 : 0
 
   return (
-    <div className='demo-controls'>
-      <div className='demo-selector'>
-        <h3>Select Demo</h3>
-        <div className='demo-buttons'>
-          <button className='demo-button' onClick={() => onSelectDemo('basic')}>
-            Basic Operations
-          </button>
-          <button
-            className='demo-button'
-            onClick={() => onSelectDemo('collision')}
-          >
-            Hash Collisions
-          </button>
-          <button
-            className='demo-button'
-            onClick={() => onSelectDemo('resize')}
-          >
-            Dynamic Resizing
-          </button>
-        </div>
-      </div>
+    <div className='eventloop-controls'>
+      <div className='controls-section controls-section--controls'>
+        <div className='controls-subsection'>
+          <h3 className='controls-title'>Playback Controls</h3>
 
-      <div className='step-info'>
-        <h3>Current Step</h3>
-        <div className='step-display'>
-          <span className='step-counter'>
-            {currentStep} / {steps.length}
-          </span>
-          {currentStepData && (
-            <div className='step-details'>
-              <div className='step-operation'>
-                Operation: <strong>{currentStepData.operation}</strong>
-              </div>
-              <div className='step-description'>
-                {currentStepData.description}
-              </div>
-              {currentStepData.key && (
-                <div className='step-params'>
-                  Key: <code>{currentStepData.key}</code>
-                  {currentStepData.value && (
-                    <>
-                      , Value: <code>{currentStepData.value}</code>
-                    </>
-                  )}
-                </div>
-              )}
+          <div className='progress-container'>
+            <div className='progress-info'>
+              <span className='progress-text'>
+                Step {currentStep} of {steps.length}
+              </span>
+              <span className='progress-percentage'>
+                {Math.round(progress)}%
+              </span>
             </div>
-          )}
-        </div>
-      </div>
+            <div className='progress-bar'>
+              <div
+                className='progress-fill'
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+          </div>
 
-      <div className='playback-controls'>
-        <h3>Controls</h3>
-        <div className='control-buttons'>
-          <button
-            className='control-button'
-            onClick={onPrevious}
-            disabled={currentStep === 0}
-          >
-            ← Previous
-          </button>
-
-          {isPlaying ? (
-            <button className='control-button play-pause' onClick={onPause}>
-              ⏸ Pause
-            </button>
-          ) : (
+          <div className='playback-buttons'>
             <button
-              className='control-button play-pause'
-              onClick={onPlay}
-              disabled={currentStep >= steps.length}
+              onClick={onReset}
+              className='control-button control-button--reset'
+              disabled={currentStep === 0 && !isPlaying}
+              title='Reset to beginning'
             >
-              ▶ Play
+              <svg viewBox='0 0 24 24' fill='currentColor'>
+                <path d='M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z' />
+              </svg>
+              Reset
             </button>
-          )}
 
-          <button
-            className='control-button'
-            onClick={onNext}
-            disabled={currentStep >= steps.length}
-          >
-            Next →
-          </button>
+            <button
+              onClick={onPrevious}
+              className='control-button control-button--previous'
+              disabled={!canGoPrevious || isPlaying}
+              title='Previous step'
+            >
+              <svg viewBox='0 0 24 24' fill='currentColor'>
+                <path d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z' />
+              </svg>
+              Previous
+            </button>
 
-          <button className='control-button reset' onClick={onReset}>
-            ↻ Reset
-          </button>
+            {isPlaying ? (
+              <button
+                onClick={onPause}
+                className='control-button control-button--pause'
+                title='Pause animation'
+              >
+                <svg viewBox='0 0 24 24' fill='currentColor'>
+                  <path d='M6 19h4V5H6v14zm8-14v14h4V5h-4z' />
+                </svg>
+                Pause
+              </button>
+            ) : (
+              <button
+                onClick={onPlay}
+                className='control-button control-button--play'
+                disabled={!canGoNext}
+                title='Play animation'
+              >
+                <svg viewBox='0 0 24 24' fill='currentColor'>
+                  <path d='M8 5v14l11-7z' />
+                </svg>
+                Play
+              </button>
+            )}
+
+            <button
+              onClick={onNext}
+              className='control-button control-button--next'
+              disabled={!canGoNext || isPlaying}
+              title='Next step'
+            >
+              <svg viewBox='0 0 24 24' fill='currentColor'>
+                <path d='M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z' />
+              </svg>
+              Next
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div className='progress-bar'>
-        <div
-          className='progress-fill'
-          style={{ width: `${(currentStep / steps.length) * 100}%` }}
-        />
+        <div className='controls-subsection'>
+          <h3 className='controls-title'>Demonstrations</h3>
+          <div className='demo-grid'>
+            {demoOptions.map((demo) => (
+              <button
+                key={demo.id}
+                onClick={() => onSelectDemo(demo.id)}
+                className='demo-card'
+              >
+                <div className='demo-card-header'>
+                  <span className='demo-label'>{demo.label}</span>
+                  <span
+                    className={`demo-complexity demo-complexity--${demo.complexity.toLowerCase()}`}
+                  >
+                    {demo.complexity}
+                  </span>
+                </div>
+                <p className='demo-description'>{demo.description}</p>
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   )

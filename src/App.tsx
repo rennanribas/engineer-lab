@@ -1,6 +1,6 @@
 import { useNavigation } from './contexts/useNavigation'
 import { Layout } from './components/Layout/Layout'
-import { DemoContainer } from './components/Demo/DemoContainer'
+import { DataStructuresContainer } from './components/Demo/DataStructuresContainer'
 import { EventLoopContainer } from './components/EventLoop/EventLoopContainer'
 import './App.css'
 
@@ -10,7 +10,7 @@ function App() {
   const renderContent = () => {
     switch (currentPage) {
       case 'visualizer':
-        return <DemoContainer />
+        return <DataStructuresContainer />
       case 'eventloop':
         return <EventLoopContainer />
       default:

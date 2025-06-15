@@ -6,7 +6,7 @@ import { DemoControls } from '../Controls/DemoControls'
 
 const demoService = new DemoService()
 
-export const DemoContainer: React.FC = () => {
+export const DataStructuresContainer: React.FC = () => {
   const [demoState, setDemoState] = useState<DemoState>(
     demoService.getCurrentState()
   )
