@@ -66,29 +66,6 @@ export const EventLoopControls: React.FC<EventLoopControlsProps> = ({
     <div className='eventloop-controls'>
       <div className='controls-section controls-section--controls'>
         <div className='controls-subsection'>
-          <h3 className='controls-title'>Demonstrations</h3>
-          <div className='demo-grid'>
-            {demoOptions.map((demo) => (
-              <button
-                key={demo.id}
-                onClick={() => onSelectDemo(demo.id)}
-                className='demo-card'
-              >
-                <div className='demo-card-header'>
-                  <span className='demo-label'>{demo.label}</span>
-                  <span
-                    className={`demo-complexity demo-complexity--${demo.complexity.toLowerCase()}`}
-                  >
-                    {demo.complexity}
-                  </span>
-                </div>
-                <p className='demo-description'>{demo.description}</p>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className='controls-subsection'>
           <h3 className='controls-title'>Playback Controls</h3>
 
           <div className='progress-container'>
@@ -169,6 +146,29 @@ export const EventLoopControls: React.FC<EventLoopControlsProps> = ({
               </svg>
               Next
             </button>
+          </div>
+        </div>
+
+        <div className='controls-subsection'>
+          <h3 className='controls-title'>Demonstrations</h3>
+          <div className='demo-grid'>
+            {demoOptions.map((demo) => (
+              <button
+                key={demo.id}
+                onClick={() => onSelectDemo(demo.id)}
+                className='demo-card'
+              >
+                <div className='demo-card-header'>
+                  <span className='demo-label'>{demo.label}</span>
+                  <span
+                    className={`demo-complexity demo-complexity--${demo.complexity.toLowerCase()}`}
+                  >
+                    {demo.complexity}
+                  </span>
+                </div>
+                <p className='demo-description'>{demo.description}</p>
+              </button>
+            ))}
           </div>
         </div>
       </div>
