@@ -2,6 +2,8 @@
 
 An interactive platform built with React and TypeScript for visualizing engineering concepts and data structures.
 
+🌐 **Live Demo**: [engineerlab.rennan.tech](https://engineerlab.rennan.tech)
+
 ## 🚀 Features
 
 - **Interactive Visualizations**: See how engineering concepts work in real-time
@@ -103,13 +105,16 @@ Contributions are welcome! Feel free to:
 4. Push to the branch
 5. Open a Pull Request
 
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
 ## 🎓 Educational Purpose
 
 This project was developed with an educational focus to help students and developers better understand the internal workings of HashMaps through interactive visualizations and practical demonstrations.
+
+## 👨‍💻 Author
+
+**Rennan Ribas**
+- Website: [engineerlab.rennan.tech](https://engineerlab.rennan.tech)
+- GitHub: [rennanribas](https://github.com/rennanribas)
+- Project Repository: [Engineer Lab](https://github.com/rennanribas/engineer-lab)
 
 ---
 

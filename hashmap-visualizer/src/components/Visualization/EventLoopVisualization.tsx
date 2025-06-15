@@ -94,11 +94,14 @@ const QueueSection: React.FC<QueueSectionProps> = ({
   tasks,
   className,
   icon,
-  description,
   isActive = false,
 }) => {
   return (
-    <div className={`queue-section ${className} ${isActive ? 'queue-section--active' : ''}`}>
+    <div
+      className={`queue-section ${className} ${
+        isActive ? 'queue-section--active' : ''
+      }`}
+    >
       <div className='queue-header'>
         <div className='queue-title-container'>
           <span className='queue-icon'>{icon}</span>
@@ -130,17 +133,21 @@ const QueueSection: React.FC<QueueSectionProps> = ({
 
 // EventLoopFlow component removed - no longer needed
 
-const TaskTransition: React.FC<{ 
-  isVisible: boolean; 
-  fromSection: string; 
-  toSection: string; 
-  task: EventLoopTask 
+const TaskTransition: React.FC<{
+  isVisible: boolean
+  fromSection: string
+  toSection: string
+  task: EventLoopTask
 }> = ({ isVisible, fromSection, toSection, task }) => {
   if (!isVisible) return null
 
   return (
-    <div className={`task-transition task-transition--${fromSection}-to-${toSection}`}>
-      <div className={`task-card task-card--${task.type} task-card--transitioning`}>
+    <div
+      className={`task-transition task-transition--${fromSection}-to-${toSection}`}
+    >
+      <div
+        className={`task-card task-card--${task.type} task-card--transitioning`}
+      >
         <div className='task-card-content'>
           <span className='task-name'>{task.name}</span>
           {task.delay && <span className='task-delay'>{task.delay}ms</span>}
@@ -161,34 +168,42 @@ export const EventLoopVisualization: React.FC<EventLoopVisualizationProps> = ({
   const currentStepData = steps[currentStep - 1]
   const [activeSection, setActiveSection] = useState<string | null>(null)
   const [transitioningTask, setTransitioningTask] = useState<{
-    task: EventLoopTask;
-    from: string;
-    to: string;
+    task: EventLoopTask
+    from: string
+    to: string
   } | null>(null)
 
   useEffect(() => {
     if (currentStepData) {
       setActiveSection(currentStepData.target)
-      
+
       // Show task transition animation for move actions
       if (currentStepData.action === 'move' && currentStepData.task) {
-        const fromSection = getPreviousLocation(currentStepData.task, currentStep - 1, steps)
+        const fromSection = getPreviousLocation(
+          currentStepData.task,
+          currentStep - 1,
+          steps
+        )
         setTransitioningTask({
           task: currentStepData.task,
           from: fromSection,
-          to: currentStepData.target
+          to: currentStepData.target,
         })
-        
+
         // Clear transition after animation
         setTimeout(() => setTransitioningTask(null), 1000)
       }
-      
+
       const timer = setTimeout(() => setActiveSection(null), 1500)
       return () => clearTimeout(timer)
     }
   }, [currentStepData, currentStep, steps])
 
-  const getPreviousLocation = (task: EventLoopTask, stepIndex: number, allSteps: EventLoopStep[]): string => {
+  const getPreviousLocation = (
+    task: EventLoopTask,
+    stepIndex: number,
+    allSteps: EventLoopStep[]
+  ): string => {
     // Look backwards through steps to find where this task was before
     for (let i = stepIndex; i >= 0; i--) {
       const step = allSteps[i]
@@ -197,23 +212,6 @@ export const EventLoopVisualization: React.FC<EventLoopVisualizationProps> = ({
       }
     }
     return 'callStack' // Default assumption
-  }
-
-  const hasActiveTasks = callStack.some(task => task.status === 'executing') ||
-                        webApis.some(task => task.status === 'executing') ||
-                        microtaskQueue.some(task => task.status === 'executing') ||
-                        taskQueue.some(task => task.status === 'executing')
-
-  const getFlowDirection = (): 'to-apis' | 'to-queues' | 'to-stack' => {
-    if (!currentStepData) return 'to-apis'
-    
-    if (currentStepData.action === 'move') {
-      if (currentStepData.target === 'webApis') return 'to-apis'
-      if (currentStepData.target === 'callStack') return 'to-stack'
-      return 'to-queues'
-    }
-    
-    return 'to-apis'
   }
 
   return (
@@ -231,7 +229,7 @@ export const EventLoopVisualization: React.FC<EventLoopVisualizationProps> = ({
       </div>
 
       <div className='eventloop-container-grid'>
-        <div className='eventloop-left'>
+        <div className='eventloop-top-left'>
           <QueueSection
             title='Web APIs'
             tasks={webApis}
@@ -242,7 +240,7 @@ export const EventLoopVisualization: React.FC<EventLoopVisualizationProps> = ({
           />
         </div>
 
-        <div className='eventloop-center'>
+        <div className='eventloop-top-right'>
           <QueueSection
             title='Call Stack'
             tasks={callStack}
@@ -253,28 +251,28 @@ export const EventLoopVisualization: React.FC<EventLoopVisualizationProps> = ({
           />
         </div>
 
-        <div className='eventloop-right'>
-          <div className='eventloop-queues'>
-            <QueueSection
-              title='Microtask Queue'
-              tasks={microtaskQueue}
-              className='queue-section--microtask'
-              icon='μQ'
-              description='High priority queue for Promises (FIFO)'
-              isActive={activeSection === 'microtaskQueue'}
-            />
-
-            <QueueSection
-              title='Task Queue'
-              tasks={taskQueue}
-              className='queue-section--taskqueue'
-              icon='TQ'
-              description='Callback queue for timers and events (FIFO)'
-              isActive={activeSection === 'taskQueue'}
-            />
-          </div>
+        <div className='eventloop-bottom-left'>
+          <QueueSection
+            title='Microtask Queue'
+            tasks={microtaskQueue}
+            className='queue-section--microtask'
+            icon='μQ'
+            description='High priority queue for Promises (FIFO)'
+            isActive={activeSection === 'microtaskQueue'}
+          />
         </div>
-        
+
+        <div className='eventloop-bottom-right'>
+          <QueueSection
+            title='Task Queue'
+            tasks={taskQueue}
+            className='queue-section--taskqueue'
+            icon='TQ'
+            description='Callback queue for timers and events (FIFO)'
+            isActive={activeSection === 'taskQueue'}
+          />
+        </div>
+
         {/* Task Transition Animation */}
         {transitioningTask && (
           <TaskTransition

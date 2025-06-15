@@ -1650,7 +1650,8 @@ body {
 /* Event Loop Container Grid */
 .eventloop-container-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   gap: 1.5rem;
   margin-bottom: 2rem;
   min-height: 500px;
@@ -1658,38 +1659,41 @@ body {
   position: relative;
 }
 
-@media (max-width: 1024px) {
-  .eventloop-container-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-  }
-  
-  .eventloop-center {
-    grid-column: 1 / -1;
-    order: -1;
-  }
-}
-
 @media (max-width: 768px) {
   .eventloop-container-grid {
     grid-template-columns: 1fr;
+    grid-template-rows: auto;
     gap: 1.5rem;
   }
 }
 
-.eventloop-left {
+.eventloop-top-left {
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.eventloop-center {
+.eventloop-top-right {
+  grid-column: 2;
+  grid-row: 1;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.eventloop-right {
+.eventloop-bottom-left {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.eventloop-bottom-right {
+  grid-column: 2;
+  grid-row: 2;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
