@@ -1,8 +1,8 @@
-name: Deploy to EC2
+name: Deploy Engineer Lab
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
   workflow_dispatch:
 
 jobs:
@@ -17,12 +17,43 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: us-east-1
 
       - name: Deploy to EC2
-        uses: aws-actions/aws-ssm-send-command@v1
-        with:
-          instance-ids: ${{ secrets.INSTANCE_ID }}
-          command: |
-            cd /opt/apps
-            ./deploy.sh
+        run: |
+          aws ssm send-command \
+            --instance-ids "i-065af4b8413a074dd" \
+            --document-name "AWS-RunShellScript" \
+            --parameters 'commands=[
+              "# Stop existing containers",
+              "sudo docker stop engineer-lab || true",
+              "sudo docker rm engineer-lab || true",
+              "sudo docker rmi engineer-lab:latest || true",
+              "",
+              "# Clone/pull latest code", 
+              "cd /home/ec2-user",
+              "if [ -d \"engineer-lab\" ]; then",
+              "  cd engineer-lab",
+              "  git pull",
+              "else", 
+              "  git clone https://github.com/${{ github.repository }}.git engineer-lab",
+              "  cd engineer-lab",
+              "fi",
+              "",
+              "# Build new image",
+              "sudo docker build -t engineer-lab:latest .",
+              "",
+              "# Stop Caddy if running",
+              "sudo docker stop caddy || true", 
+              "sudo docker rm caddy || true",
+              "",
+              "# Create network if not exists",
+              "sudo docker network create web || true",
+              "",
+              "# Start engineer-lab",
+              "sudo docker run -d --name engineer-lab --network web -p 3001:80 engineer-lab:latest",
+              "",
+              "# Start Caddy with inline config",
+              "sudo docker run -d --name caddy --network web -p 80:80 -p 443:443 -v caddy_data:/data -v caddy_config:/config caddy:alpine sh -c \"echo '"'"'{\"email\":\"rennan@rennan.tech\",\"apps\":{\"http\":{\"servers\":{\"srv0\":{\"listen\":[\":80\",\":443\"],\"routes\":[{\"match\":[{\"host\":[\"engineer.rennan.tech\"]}],\"handle\":[{\"handler\":\"reverse_proxy\",\"upstreams\":[{\"dial\":\"engineer-lab:80\"}]}]},{\"match\":[{\"host\":[\"rennan.tech\"]}],\"handle\":[{\"handler\":\"reverse_proxy\",\"upstreams\":[{\"dial\":\"rennan-tech:3000\"}]}]}],\"automatic_https\":{\"email\":\"rennan@rennan.tech\"}}}}}'"'"' | caddy run --config -\""
+            ]' \
+            --comment "Deploy Engineer Lab"
