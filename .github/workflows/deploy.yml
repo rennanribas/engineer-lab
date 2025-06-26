@@ -19,6 +19,19 @@ jobs:
           role-to-assume: arn:aws:iam::418272771113:role/GitHubActionsRole
           aws-region: us-east-1
 
+      - name: Wait for SSM Agent
+        run: |
+          echo "Waiting for SSM Agent to be ready..."
+          for i in {1..10}; do
+            if aws ssm describe-instance-information --filters "Key=InstanceIds,Values=i-065af4b8413a074dd" --query 'InstanceInformationList[0].PingStatus' --output text | grep -q "Online"; then
+              echo "✅ SSM Agent is online"
+              break
+            else
+              echo "⏳ Attempt $i/10: SSM Agent not ready, waiting 30 seconds..."
+              sleep 30
+            fi
+          done
+
       - name: Deploy to EC2
         run: |
           aws ssm send-command \
