@@ -1,49 +1,51 @@
-name: Build & Deploy – Engineer Lab
+name: Build and Deploy Engineer Lab
 
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
 
 permissions:
   id-token: write
   contents: read
-  pull-requests: write
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: aws-actions/configure-aws-credentials@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-role
-          aws-region: us-east-1
+          aws-region: ${{ env.AWS_REGION }}
           role-skip-session-tagging: true
 
-      - name: Build Docker image
-        run: docker build -t ${{ secrets.ECR_REPOSITORY_URI }}:latest .
+      - name: Login to Amazon ECR Public
+        id: login-ecr-public
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registry-type: public
 
-      - name: Push to ECR Public
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - name: Build and push image
+        env:
+          REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+          REPOSITORY: engineer-lab
+          IMAGE_TAG: latest
         run: |
-          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
-          docker push ${{ secrets.ECR_REPOSITORY_URI }}:latest
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          echo "Image pushed: $REGISTRY/$REPOSITORY:$IMAGE_TAG"
 
-      - name: Redeploy on EC2
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - name: Trigger deployment
         run: |
-          aws ssm send-command \
-            --instance-ids "${{ secrets.INSTANCE_ID }}" \
-            --document-name "AWS-RunShellScript" \
-            --comment "Update engineer-lab container" \
-            --parameters commands="
-              docker pull ${{ secrets.ECR_REPOSITORY_URI }}:latest &&
-              docker tag  ${{ secrets.ECR_REPOSITORY_URI }}:latest engineer-lab:latest &&
-              cd /home/ubuntu/infra-rennan-tech &&
-              RENNAN_TECH_IMAGE=rennan-tech:latest ENGINEER_LAB_IMAGE=engineer-lab:latest docker compose up -d
-            " \
-            --output text
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository_owner }}/infra-rennan-tech/dispatches \
+            -d '{"event_type":"deploy-app","client_payload":{"service":"engineer-lab","repository":"${{ github.repository }}"}}'
