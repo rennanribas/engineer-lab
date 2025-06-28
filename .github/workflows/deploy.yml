@@ -1,0 +1,48 @@
+name: Build & Deploy – Engineer Lab
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  REGION: ${{ secrets.AWS_REGION }}
+  ECR_URI: ${{ secrets.ECR_REPOSITORY_URI }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    concurrency: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-role
+          aws-region: ${{ env.REGION }}
+          role-skip-session-tagging: true
+
+      - name: Build Docker image
+        run: docker build -t $ECR_URI:latest .
+
+      - name: Push to ECR Public
+        run: |
+          aws ecr-public get-login-password | docker login --username AWS --password-stdin public.ecr.aws
+          docker push $ECR_URI:latest
+
+      - name: Redeploy on EC2
+        run: |
+          aws ssm send-command \
+            --instance-ids "${{ secrets.INSTANCE_ID }}" \
+            --document-name "AWS-RunShellScript" \
+            --comment "Update engineer-lab container" \
+            --parameters commands="
+              docker pull $ECR_URI:latest &&
+              docker tag  $ECR_URI:latest engineer-lab:latest &&
+              docker compose -f /home/ubuntu/infra-rennan-tech/docker-compose.yml up -d engineer-lab
+            " \
+            --output text

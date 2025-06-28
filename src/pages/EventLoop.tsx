@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { EventLoopService, type EventLoopState } from '../services/EventLoopService'
-import { EventLoopVisualization } from '../components/Visualization/eventloopvisualization'
+import { EventLoopVisualization } from '../components/Visualization/EventLoopVisualization'
 import { CodePreview } from '../components/CodePreview'
 import { DemonstrationsComponent } from '../components/Demonstrations'
 import { eventLoopDemoOptions } from '../data/eventLoopDemos'
