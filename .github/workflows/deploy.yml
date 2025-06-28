@@ -24,6 +24,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-role
           aws-region: ${{ env.REGION }}
+          audience: sts.amazonaws.com
           role-skip-session-tagging: true
 
       - name: Build Docker image
@@ -31,7 +32,7 @@ jobs:
 
       - name: Push to ECR Public
         run: |
-          aws ecr-public get-login-password | docker login --username AWS --password-stdin public.ecr.aws
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
           docker push $ECR_URI:latest
 
       - name: Redeploy on EC2
