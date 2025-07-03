@@ -2675,3 +2675,1054 @@ body {
     padding: 4px 8px;
   }
 }
+
+/* Deployment Pipeline Styles */
+.deployment-pipeline {
+  background: var(--bg-secondary);
+  min-height: 100vh;
+  padding-bottom: var(--space-16);
+}
+
+.pipeline-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.pipeline-controls {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-12);
+}
+
+.control-button--play {
+  background: var(--bg-gradient);
+  color: var(--text-inverse);
+}
+
+.control-button--play:hover:not(.control-button--disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.control-button--disabled {
+  background: var(--gray-400);
+  color: var(--gray-200);
+  cursor: not-allowed;
+}
+
+.control-button--disabled:hover {
+  transform: none;
+  box-shadow: var(--shadow-md);
+}
+
+.control-button--reset {
+  background: var(--gray-600);
+  color: var(--text-inverse);
+}
+
+.control-button--reset:hover {
+  background: var(--gray-700);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.pipeline-diagram {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  margin: 0 auto var(--space-12);
+  background: var(--bg-primary);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-8);
+  overflow: hidden;
+}
+
+.pipeline-service {
+  position: absolute;
+}
+
+.service-card {
+  position: relative;
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  background: var(--bg-primary);
+  border: 2px solid var(--gray-200);
+  box-shadow: var(--shadow-md);
+  min-width: 140px;
+  text-align: center;
+  transition: all var(--transition-normal);
+}
+
+.service-card--active {
+  border-color: var(--primary-500);
+  box-shadow: var(--shadow-xl);
+  background: var(--primary-50);
+}
+
+.service-card--completed {
+  border-color: var(--success);
+  background: #f0fdf4;
+}
+
+.service-card--developer {
+  border-color: var(--primary-400);
+}
+
+.service-card--github {
+  border-color: var(--gray-500);
+}
+
+.service-card--actions {
+  border-color: var(--success);
+}
+
+.service-card--ecr {
+  border-color: var(--warning);
+}
+
+.service-card--terraform {
+  border-color: var(--secondary-500);
+}
+
+.service-card--ec2 {
+  border-color: var(--warning);
+}
+
+.service-card--users {
+  border-color: var(--success);
+}
+
+.service-glow {
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, var(--primary-200), var(--primary-300));
+  z-index: -1;
+}
+
+.service-content {
+  position: relative;
+  z-index: 10;
+}
+
+.service-icon {
+  margin: 0 auto var(--space-3);
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--gray-100), var(--gray-50));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-600);
+}
+
+.service-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-1);
+}
+
+.service-description {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.service-check {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  background: var(--success);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.connection-line {
+  position: absolute;
+  transform-origin: left center;
+}
+
+.connection-path {
+  height: 2px;
+  background: var(--gray-300);
+  position: relative;
+  overflow: hidden;
+  border-radius: 1px;
+}
+
+.connection-path--active {
+  background: var(--primary-500);
+  box-shadow: 0 0 8px var(--primary-200);
+}
+
+.connection-flow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--primary-200),
+    transparent
+  );
+}
+
+.data-packet {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid;
+  box-shadow: var(--shadow-sm);
+}
+
+.data-packet--code {
+  background: var(--primary-500);
+  border-color: var(--primary-300);
+}
+
+.data-packet--image {
+  background: var(--secondary-500);
+  border-color: var(--secondary-300);
+}
+
+.data-packet--deploy {
+  background: var(--success);
+  border-color: #86efac;
+}
+
+.data-packet-pulse {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.pipeline-step-info {
+  background: var(--bg-primary);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-6);
+  margin-bottom: var(--space-12);
+  text-align: center;
+}
+
+.step-header {
+  margin-bottom: var(--space-6);
+}
+
+.step-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.step-description {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.step-progress {
+  display: flex;
+  justify-content: center;
+}
+
+.progress-dots {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.progress-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transition: all var(--transition-normal);
+}
+
+.progress-dot--current {
+  background: var(--primary-500);
+  transform: scale(1.25);
+  box-shadow: 0 0 8px var(--primary-300);
+}
+
+.progress-dot--completed {
+  background: var(--success);
+}
+
+.progress-dot--pending {
+  background: var(--gray-300);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .pipeline-diagram {
+    height: 350px;
+    padding: var(--space-6);
+  }
+
+  .service-card {
+    min-width: 120px;
+    padding: var(--space-4);
+  }
+
+  .service-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .service-title {
+    font-size: 0.8rem;
+  }
+
+  .service-description {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .pipeline-container {
+    padding: 0 var(--space-4);
+  }
+
+  .pipeline-diagram {
+    height: 300px;
+    padding: var(--space-4);
+  }
+
+  .service-card {
+    min-width: 100px;
+    padding: var(--space-3);
+  }
+
+  .service-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .service-title {
+    font-size: 0.75rem;
+  }
+
+  .service-description {
+    font-size: 0.65rem;
+  }
+
+  .step-title {
+    font-size: 1.25rem;
+  }
+
+  .step-description {
+    font-size: 0.9rem;
+  }
+
+  .control-buttons {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .control-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .pipeline-diagram {
+    height: 250px;
+    padding: var(--space-3);
+  }
+
+  .service-card {
+    min-width: 80px;
+    padding: var(--space-2);
+  }
+
+  .service-icon {
+    width: 28px;
+    height: 28px;
+    margin-bottom: var(--space-2);
+  }
+
+  .service-title {
+    font-size: 0.7rem;
+  }
+
+  .service-description {
+    font-size: 0.6rem;
+  }
+
+  .step-title {
+    font-size: 1.125rem;
+  }
+
+  .step-description {
+    font-size: 0.875rem;
+  }
+
+  .pipeline-step-info {
+    padding: var(--space-4);
+  }
+}
+
+/* Enhanced Deployment Pipeline Styles */
+.deployment-pipeline {
+  position: relative;
+  min-height: 100vh;
+  background: radial-gradient(
+      circle at 20% 80%,
+      rgba(99, 102, 241, 0.03) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(139, 92, 246, 0.04) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 40%,
+      rgba(34, 197, 94, 0.02) 0%,
+      transparent 50%
+    );
+  overflow-x: auto;
+}
+
+.pipeline-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+}
+
+/* Repository Selection Panel */
+.repository-panel {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.panel-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.repositories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Liquid Glass Card Base */
+.liquid-glass-card {
+  position: relative;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.liquid-glass-backdrop {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  border-radius: inherit;
+}
+
+.liquid-glass-content {
+  position: relative;
+  z-index: 2;
+  padding: 1.5rem;
+}
+
+.liquid-glass-card--active {
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.liquid-glass-card--active .liquid-glass-backdrop {
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.15) 0%,
+    rgba(99, 102, 241, 0.08) 50%,
+    rgba(99, 102, 241, 0.03) 100%
+  );
+}
+
+.liquid-glass-card--processing {
+  animation: liquid-pulse 2s ease-in-out infinite;
+}
+
+.liquid-processing-effect {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Repository Card Styles */
+.repo-card {
+  min-height: 220px;
+  transition: transform 0.3s ease;
+}
+
+.repo-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.repo-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.repo-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-right: 1rem;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.repo-info {
+  flex: 1;
+  text-align: left;
+}
+
+.repo-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.repo-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+.repo-changes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.change-button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.change-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(3px);
+}
+
+.change-button--selected {
+  border-color: rgba(99, 102, 241, 0.4);
+  background: rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+}
+
+.change-label {
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.change-description {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+/* Pipeline Controls */
+.pipeline-controls {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.control-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.control-button {
+  padding: 0.875rem 2rem;
+  border: none;
+  border-radius: 50px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+}
+
+.control-button--play {
+  background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
+  color: white;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+}
+
+.control-button--play:hover:not(.control-button--disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
+}
+
+.control-button--reset {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.control-button--reset:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.control-button--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Pipeline Visualization */
+.pipeline-visualization {
+  position: relative;
+  height: 500px;
+  margin: 3rem 0;
+  border-radius: 24px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.01) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  overflow: visible;
+}
+
+/* Processing Baskets */
+.processing-basket {
+  position: absolute;
+  z-index: 10;
+}
+
+.basket-card {
+  min-width: 140px;
+  text-align: center;
+  position: relative;
+}
+
+.basket-card--small {
+  min-width: 120px;
+}
+
+.basket-card--medium {
+  min-width: 140px;
+}
+
+.basket-card--large {
+  min-width: 160px;
+}
+
+.basket-step-number {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+  z-index: 15;
+}
+
+.basket-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin: 0 auto 0.75rem;
+  box-shadow: 0 3px 12px rgba(99, 102, 241, 0.25);
+}
+
+.basket-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.basket-description {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  opacity: 0.7;
+  margin-bottom: 0.75rem;
+}
+
+.processing-indicator {
+  color: var(--primary-500);
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+/* Enhanced Process Cards */
+.process-card {
+  width: 120px;
+  height: 60px;
+  border-radius: 12px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.process-card--code {
+  background: linear-gradient(
+    135deg,
+    rgba(16, 185, 129, 0.2) 0%,
+    rgba(5, 150, 105, 0.1) 100%
+  );
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.process-card--image {
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.2) 0%,
+    rgba(217, 119, 6, 0.1) 100%
+  );
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.process-card--deploy {
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.2) 0%,
+    rgba(124, 58, 237, 0.1) 100%
+  );
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.process-card--infrastructure {
+  background: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.2) 0%,
+    rgba(220, 38, 38, 0.1) 100%
+  );
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.process-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.process-card-icon {
+  margin-bottom: 0.25rem;
+  opacity: 0.9;
+}
+
+.process-card--code .process-card-icon {
+  color: #10b981;
+}
+
+.process-card--image .process-card-icon {
+  color: #f59e0b;
+}
+
+.process-card--deploy .process-card-icon {
+  color: #8b5cf6;
+}
+
+.process-card--infrastructure .process-card-icon {
+  color: #ef4444;
+}
+
+.process-card-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.process-card-pulse {
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: inherit;
+  z-index: 1;
+}
+
+/* Connection Lines */
+.connection-line {
+  height: 3px;
+  z-index: 5;
+}
+
+.connection-path {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(99, 102, 241, 0.3) 0%,
+    rgba(139, 92, 246, 0.3) 100%
+  );
+  border-radius: 1.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.connection-path--active {
+  background: linear-gradient(90deg, var(--primary-500), var(--secondary-500));
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+}
+
+.connection-flow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.8) 50%,
+    transparent 100%
+  );
+  border-radius: inherit;
+}
+
+/* Current Step Display */
+.current-step-display {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.step-info-card {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.current-step-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.current-step-description {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.step-progress-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.step-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-500), var(--secondary-500));
+  border-radius: 3px;
+  transition: width 0.8s ease;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+}
+
+/* Animations */
+@keyframes liquid-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.2);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .pipeline-visualization {
+    height: 450px;
+  }
+
+  .basket-card {
+    min-width: 120px;
+  }
+
+  .basket-card--large {
+    min-width: 140px;
+  }
+
+  .process-card {
+    width: 100px;
+    height: 50px;
+  }
+
+  .process-card-label {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .pipeline-container {
+    padding: 0 1rem;
+  }
+
+  .repositories-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .pipeline-visualization {
+    height: 400px;
+    margin: 2rem 0;
+  }
+
+  .basket-card {
+    min-width: 100px;
+  }
+
+  .basket-card--large {
+    min-width: 120px;
+  }
+
+  .basket-title {
+    font-size: 0.8rem;
+  }
+
+  .basket-description {
+    font-size: 0.7rem;
+  }
+
+  .process-card {
+    width: 80px;
+    height: 40px;
+  }
+
+  .process-card-label {
+    font-size: 0.6rem;
+  }
+
+  .control-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .control-button {
+    width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pipeline-visualization {
+    height: 350px;
+  }
+
+  .basket-card {
+    min-width: 90px;
+  }
+
+  .basket-card--large {
+    min-width: 100px;
+  }
+
+  .basket-step-number {
+    width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
+  }
+
+  .basket-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 0.5rem;
+  }
+
+  .basket-title {
+    font-size: 0.75rem;
+  }
+
+  .process-card {
+    width: 70px;
+    height: 35px;
+  }
+
+  .connection-path {
+    height: 2px;
+  }
+}

@@ -16,7 +16,10 @@ export const Home = () => {
               concepts and data structures through modern web technologies
             </p>
             <div className='hero-actions'>
-              <Link to='/visualizer' className='cta-button cta-button--primary'>
+              <Link
+                to='/data-structures'
+                className='cta-button cta-button--primary'
+              >
                 Explore Data Structures
               </Link>
               <Link to='/eventloop' className='cta-button cta-button--primary'>
@@ -119,6 +122,14 @@ export const Home = () => {
               <p className='feature-description'>
                 Designed to help students and developers understand complex
                 algorithms through step-by-step interactive demonstrations
+              </p>
+            </div>
+
+            <div className='feature-card'>
+              <h3 className='feature-title'>Modern Pipeline</h3>
+              <p className='feature-description'>
+                Explore our automated deployment pipeline using React 19.1,
+                Tailwind v4, Motion animations, and modern AWS infrastructure
               </p>
             </div>
           </div>
