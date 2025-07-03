@@ -36,11 +36,13 @@ jobs:
       - name: Build and push image
         env:
           ECR_REPOSITORY_URI: public.ecr.aws/q9c0i8b3/engineer-lab
-          IMAGE_TAG: latest
+          IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $ECR_REPOSITORY_URI:$IMAGE_TAG .
           docker push $ECR_REPOSITORY_URI:$IMAGE_TAG
-          echo "Image pushed: $ECR_REPOSITORY_URI:$IMAGE_TAG"
+          docker tag $ECR_REPOSITORY_URI:$IMAGE_TAG $ECR_REPOSITORY_URI:latest
+          docker push $ECR_REPOSITORY_URI:latest
+          echo "Image pushed: $ECR_REPOSITORY_URI:$IMAGE_TAG and $ECR_REPOSITORY_URI:latest"
 
       - name: Trigger deployment
         run: |
@@ -48,4 +50,5 @@ jobs:
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/${{ github.repository_owner }}/infra-rennan-tech/dispatches \
-            -d '{"event_type":"deploy-app","client_payload":{"service":"engineer-lab","repository":"${{ github.repository }}"}}'
+            -d '{"event_type":"deploy-app","client_payload":{"service":"engineer-lab","repository":"${{ github.repository }}","image_tag":"${{ github.sha }}"}}' \
+          && echo "Deployment triggered for engineer-lab with tag ${{ github.sha }}"
