@@ -1,0 +1,16 @@
+# Doppler configuration for engineer-lab
+setup:
+  project: engineer-lab
+  config: production
+
+# Environment mappings
+environments:
+  development:
+    project: engineer-lab
+    config: dev
+  staging:
+    project: engineer-lab
+    config: staging
+  production:
+    project: engineer-lab
+    config: production
