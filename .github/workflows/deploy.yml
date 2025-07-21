@@ -24,12 +24,7 @@ jobs:
           aws-region: us-east-1
           role-skip-session-tagging: true
 
-      - name: Load secrets from Parameter Store
-        run: |
-          ECR_REPOSITORY_URI=$(aws ssm get-parameter --name "/doppler/rennan-tech/ECR_REPOSITORY_URI_ENGINEER_LAB" --with-decryption --query 'Parameter.Value' --output text)
-          DEPLOY_TOKEN=$(aws ssm get-parameter --name "/doppler/rennan-tech/DEPLOY_TOKEN" --with-decryption --query 'Parameter.Value' --output text)
-          echo "ECR_REPOSITORY_URI=${ECR_REPOSITORY_URI}" >> $GITHUB_ENV
-          echo "DEPLOY_TOKEN=${DEPLOY_TOKEN}" >> $GITHUB_ENV
+      
 
       - name: Login to Amazon ECR Public
         uses: aws-actions/amazon-ecr-login@v2
@@ -44,10 +39,25 @@ jobs:
           docker tag $ECR_REPOSITORY_URI:$IMAGE_TAG $ECR_REPOSITORY_URI:latest
           docker push $ECR_REPOSITORY_URI:latest
 
-      - name: Trigger deployment
+      - name: Deploy to EC2
         run: |
-          curl -X POST \
-            -H "Authorization: token $DEPLOY_TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/${{ github.repository_owner }}/infra-rennan-tech/dispatches \
-            -d '{"event_type":"deploy-app","client_payload":{"service":"engineer-lab","repository":"${{ github.repository }}","image_tag":"${{ github.sha }}"}}}'
+          INSTANCE_ID=$(aws ec2 describe-instances \
+            --filters "Name=tag:Name,Values=rennan-tech-server" "Name=instance-state-name,Values=running" \
+            --query 'Reservations[0].Instances[0].InstanceId' --output text)
+          
+          echo "Deploying engineer-lab to instance: $INSTANCE_ID"
+          
+          aws ssm send-command \
+            --instance-ids "$INSTANCE_ID" \
+            --document-name "AWS-RunShellScript" \
+            --parameters 'commands=[
+              "cd /home/ubuntu/infra-rennan-tech",
+              "RENNAN_TECH_ECR_URI=$(aws ssm get-parameter --name /doppler/rennan-tech/landing/ECR_REPOSITORY_URI --query Parameter.Value --output text 2>/dev/null || echo '')",
+              "ENGINEER_LAB_ECR_URI=$(aws ssm get-parameter --name /doppler/rennan-tech/engineer-lab/ECR_REPOSITORY_URI --query Parameter.Value --output text 2>/dev/null || echo '')",
+              "echo RENNAN_TECH_ECR_URI=$RENNAN_TECH_ECR_URI > .env",
+              "echo ENGINEER_LAB_ECR_URI=$ENGINEER_LAB_ECR_URI >> .env",
+              "docker compose --env-file .env pull engineer-lab",
+              "docker compose --env-file .env up -d engineer-lab",
+              "docker image prune -f"
+            ]' \
+            --output text
