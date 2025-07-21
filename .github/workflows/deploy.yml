@@ -17,9 +17,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Doppler CLI
-        uses: dopplerhq/cli-action@v3
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -27,34 +24,30 @@ jobs:
           aws-region: us-east-1
           role-skip-session-tagging: true
 
+      - name: Load secrets from Parameter Store
+        run: |
+          ECR_REPOSITORY_URI=$(aws ssm get-parameter --name "/doppler/rennan-tech/ECR_REPOSITORY_URI_ENGINEER_LAB" --with-decryption --query 'Parameter.Value' --output text)
+          DEPLOY_TOKEN=$(aws ssm get-parameter --name "/doppler/rennan-tech/DEPLOY_TOKEN" --with-decryption --query 'Parameter.Value' --output text)
+          echo "ECR_REPOSITORY_URI=${ECR_REPOSITORY_URI}" >> $GITHUB_ENV
+          echo "DEPLOY_TOKEN=${DEPLOY_TOKEN}" >> $GITHUB_ENV
+
       - name: Login to Amazon ECR Public
-        id: login-ecr-public
         uses: aws-actions/amazon-ecr-login@v2
         with:
           registry-type: public
 
       - name: Build and push image
         run: |
-          doppler run -- bash -c '
-            IMAGE_TAG=${{ github.sha }}
-            docker build -t $ECR_REPOSITORY_URI:$IMAGE_TAG .
-            docker push $ECR_REPOSITORY_URI:$IMAGE_TAG
-            docker tag $ECR_REPOSITORY_URI:$IMAGE_TAG $ECR_REPOSITORY_URI:latest
-            docker push $ECR_REPOSITORY_URI:latest
-            echo "Image pushed: $ECR_REPOSITORY_URI:$IMAGE_TAG and $ECR_REPOSITORY_URI:latest"
-          '
-        env:
-          DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
+          IMAGE_TAG=${{ github.sha }}
+          docker build -t $ECR_REPOSITORY_URI:$IMAGE_TAG .
+          docker push $ECR_REPOSITORY_URI:$IMAGE_TAG
+          docker tag $ECR_REPOSITORY_URI:$IMAGE_TAG $ECR_REPOSITORY_URI:latest
+          docker push $ECR_REPOSITORY_URI:latest
 
       - name: Trigger deployment
         run: |
-          doppler run -- bash -c '
-            curl -X POST \
-              -H "Authorization: token $DEPLOY_TOKEN" \
-              -H "Accept: application/vnd.github.v3+json" \
-              https://api.github.com/repos/${{ github.repository_owner }}/infra-rennan-tech/dispatches \
-              -d "{\"event_type\":\"deploy-app\",\"client_payload\":{\"service\":\"engineer-lab\",\"repository\":\"${{ github.repository }}\",\"image_tag\":\"${{ github.sha }}\"}}" \
-            && echo "Deployment triggered for engineer-lab with tag ${{ github.sha }}"
-          '
-        env:
-          DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
+          curl -X POST \
+            -H "Authorization: token $DEPLOY_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository_owner }}/infra-rennan-tech/dispatches \
+            -d '{"event_type":"deploy-app","client_payload":{"service":"engineer-lab","repository":"${{ github.repository }}","image_tag":"${{ github.sha }}"}}}'
