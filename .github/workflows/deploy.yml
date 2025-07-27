@@ -32,6 +32,8 @@ jobs:
           registry-type: public
 
       - name: Build and push image
+        env:
+          ECR_REPOSITORY_URI: ${{ secrets.ECR_REPOSITORY_URI }}
         run: |
           IMAGE_TAG=${{ github.sha }}
           docker build -t $ECR_REPOSITORY_URI:$IMAGE_TAG .
@@ -52,8 +54,8 @@ jobs:
             --document-name "AWS-RunShellScript" \
             --parameters 'commands=[
               "cd /home/ubuntu/infra-rennan-tech",
-              "RENNAN_TECH_ECR_URI=$(aws ssm get-parameter --name /doppler/rennan-tech/landing/ECR_REPOSITORY_URI --query Parameter.Value --output text 2>/dev/null || echo '')",
-              "ENGINEER_LAB_ECR_URI=$(aws ssm get-parameter --name /doppler/rennan-tech/engineer-lab/ECR_REPOSITORY_URI --query Parameter.Value --output text 2>/dev/null || echo '')",
+              "RENNAN_TECH_ECR_URI=$(aws ssm get-parameter --name '/doppler/rennan-tech/landing/ECR_REPOSITORY_URI' --query 'Parameter.Value' --output text 2>/dev/null || echo '')",
+              "ENGINEER_LAB_ECR_URI=$(aws ssm get-parameter --name '/doppler/rennan-tech/engineer-lab/ECR_REPOSITORY_URI' --query 'Parameter.Value' --output text 2>/dev/null || echo '')",
               "echo RENNAN_TECH_ECR_URI=$RENNAN_TECH_ECR_URI > .env",
               "echo ENGINEER_LAB_ECR_URI=$ENGINEER_LAB_ECR_URI >> .env",
               "docker compose --env-file .env pull engineer-lab",
